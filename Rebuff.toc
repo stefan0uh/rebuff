@@ -1,0 +1,12 @@
+## Interface: 13133
+## Author: Toolate <The Dominion> - Nethergarde-Keep EU 
+## Version: 0.15
+## Title: Rebuff
+## Notes: Report for missing raid buffs
+## SavedVariablesPerCharacter: RebuffDB
+## OptionalDeps: 
+## DefaultState: enabled
+
+embeds.xml
+Rebuff.lua
+config.lua
