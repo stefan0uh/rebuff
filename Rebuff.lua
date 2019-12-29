@@ -60,7 +60,7 @@ function addon:print()
         end
     else
         addon:sendtoChannel("-----------------------------", channel)
-        addon:sendtoChannel("All players are buffed.", channel)
+        addon:sendtoChannel("All players are buffed", channel)
         addon:sendtoChannel("-----------------------------", channel)
     end
 end
@@ -111,8 +111,7 @@ function addon:getMissingBuffs(player, role)
         singleBuff = tonumber(singleBuff)
         groupBuff = tonumber(groupBuff)
 
-        if not ((className == "ROGUE" or className == "WARRIOR" 
-        and groupBuff == 23028 or groupBuff == 27681)) then
+        if not ((className == "ROGUE" or className == "WARRIOR") and (groupBuff == 23028 or groupBuff == 27681)) then
 
             local buffSlotOnPlayer = 1
             local buff, _, _, _, _, _, _, _, _, spellID =
