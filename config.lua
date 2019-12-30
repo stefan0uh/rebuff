@@ -36,9 +36,10 @@ local offset = 16
 -- Main options panel
 rebuffPanel = CreateFrame("Frame")
 rebuffPanel.name = addonName
+
 InterfaceOptions_AddCategory(rebuffPanel)
 
-local title = nil
+local title, description = nil
 ----------------------------
 --          EVENTS        --
 ----------------------------
@@ -48,74 +49,21 @@ local function onEvent(self, event, arg1, ...)
         title:SetPoint("TOPLEFT", rebuffPanel, "TOPLEFT", offset, -offset)
         title:SetText(addonName)
 
-        createChannelDropdown()
-        createReadycheckCheckbox()
-        createBuffSelection()
+        description = rebuffPanel:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
+        description:SetPoint("TOPLEFT", title, "TOPLEFT", 0, -offset * 1.5)
+        description:SetText("Separate buffs for RAID and TANKS \n(TANKS needed to be marked as MAINTANK or MAINASSIST)")
+        description:SetJustifyH("LEFT")
+
+        createBuffSelection(offset, -offset * 6)
+        createChannelDropdown(offset, 80)
+        createReadycheckCheckbox(250, 50)
     end
 end
 
-function createReadycheckCheckbox()
-    local checkReadyPrompt = CreateFrame("CheckButton", "checkReadyPrompt", rebuffPanel, "InterfaceOptionsCheckButtonTemplate")
-    checkReadyPrompt:SetSize(24, 24)
-    checkReadyPrompt:SetHitRectInsets(0, 0, 0, 0)
-    checkReadyPrompt:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -offset * 4)
-    checkReadyPrompt:SetChecked(Rebuff:getSV("options", "readyCheck"))
-    checkReadyPrompt:SetScript("OnClick", function() readyCheck = checkReadyPrompt:GetChecked() end)
 
-    local labelReadyPrompt = rebuffPanel:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
-    labelReadyPrompt:SetPoint("TOPLEFT", checkReadyPrompt, "TOPLEFT", 32, -6)
-    labelReadyPrompt:SetJustifyH("LEFT")
-    labelReadyPrompt:SetText("Broadcast after READYCHECK")
-end
-
-function createChannelDropdown()
-    ----------------------------------------
-    -- Drop Down Menu broadcast channels ---
-    -----------------------------------------
-    channel = Rebuff:getSV("options", "channel")
-
-    if not sendChannelSelect then CreateFrame("Button", "sendChannelSelect", rebuffPanel, "UIDropDownMenuTemplate") end
-
-    sendChannelSelect:ClearAllPoints()
-    sendChannelSelect:SetPoint("TOPLEFT", title, "BOTTOMLEFT", -offset, -offset)
-    sendChannelSelect:Show()
-
-    -- return dropdown selection
-    local function OnClick(self)
-        UIDropDownMenu_SetSelectedID(sendChannelSelect, self:GetID(), text, value)
-        channel = self.value
-    end
-
-    -- dropdown box properties
-    local function initialize(self, level)
-        local info = UIDropDownMenu_CreateInfo()
-        for index, chan in pairs({"RAID", "PARTY", "SAY", "PRINT"}) do
-            info = UIDropDownMenu_CreateInfo()
-            info.text = chan
-            info.value = chan
-            info.func = function(self)
-                UIDropDownMenu_SetSelectedID(sendChannelSelect, self:GetID(), text, value)
-                channel = self.value
-            end
-            UIDropDownMenu_AddButton(info, level)
-        end
-    end
-
-    UIDropDownMenu_Initialize(sendChannelSelect, initialize)
-    UIDropDownMenu_SetWidth(sendChannelSelect, 100)
-    UIDropDownMenu_SetButtonWidth(sendChannelSelect, 100)
-    UIDropDownMenu_JustifyText(sendChannelSelect, "LEFT")
-    UIDropDownMenu_SetSelectedName(sendChannelSelect, channel)
-
-    local labelChannelDropdown = rebuffPanel:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
-    labelChannelDropdown:SetPoint("TOPLEFT", sendChannelSelect, "TOPLEFT", 148, -8)
-    labelChannelDropdown:SetJustifyH("LEFT")
-    labelChannelDropdown:SetText("Broadcast channel")
-end
-
-function createBuffSelection()
+function createBuffSelection(x,y)
     local labelBuffs = rebuffPanel:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
-    labelBuffs:SetPoint("TOPLEFT", title, "TOPLEFT", 0, -(offset * 8))
+    labelBuffs:SetPoint("TOPLEFT", rebuffPanel, "TOPLEFT", x,y)
     labelBuffs:SetText("Buffs")
 
     local buffTitles = {}
@@ -163,6 +111,66 @@ function createBuffSelection()
         end
     end
 end
+
+function createChannelDropdown(x,y)
+    channel = Rebuff:getSV("options", "channel")
+
+    local labelChannelDropdown = rebuffPanel:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
+    labelChannelDropdown:SetPoint("TOPLEFT", rebuffPanel, "BOTTOMLEFT",  x, y)
+    labelChannelDropdown:SetJustifyH("LEFT")
+    labelChannelDropdown:SetText("Select a broadcast channel")
+
+    if not sendChannelSelect then CreateFrame("Button", "sendChannelSelect", rebuffPanel, "UIDropDownMenuTemplate") end
+
+    sendChannelSelect:ClearAllPoints()
+    sendChannelSelect:SetPoint("TOPLEFT", labelChannelDropdown, "TOPLEFT", -14, -24)
+    sendChannelSelect:Show()
+
+    -- return dropdown selection
+    local function OnClick(self)
+        UIDropDownMenu_SetSelectedID(sendChannelSelect, self:GetID(), text, value)
+        channel = self.value
+    end
+
+    -- dropdown box properties
+    local function initialize(self, level)
+        local info = UIDropDownMenu_CreateInfo()
+        for index, chan in pairs({"RAID", "PARTY", "SAY", "PRINT"}) do
+            info = UIDropDownMenu_CreateInfo()
+            info.text = chan
+            info.value = chan
+            info.func = function(self)
+                UIDropDownMenu_SetSelectedID(sendChannelSelect, self:GetID(), text, value)
+                channel = self.value
+            end
+            UIDropDownMenu_AddButton(info, level)
+        end
+    end
+
+    UIDropDownMenu_Initialize(sendChannelSelect, initialize)
+    UIDropDownMenu_SetWidth(sendChannelSelect, 100)
+    UIDropDownMenu_SetButtonWidth(sendChannelSelect, 100)
+    UIDropDownMenu_JustifyText(sendChannelSelect, "LEFT")
+    UIDropDownMenu_SetSelectedName(sendChannelSelect, channel)
+
+    
+end
+
+function createReadycheckCheckbox(x, y)
+    local checkReadyPrompt = CreateFrame("CheckButton", "checkReadyPrompt", rebuffPanel, "InterfaceOptionsCheckButtonTemplate")
+    local labelReadyPrompt = rebuffPanel:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
+
+    labelReadyPrompt:SetPoint("TOPLEFT", checkReadyPrompt, "TOPLEFT", 32, -5)
+    labelReadyPrompt:SetJustifyH("LEFT")
+    labelReadyPrompt:SetText("Broadcast prompt after READYCHECK")
+
+    checkReadyPrompt:SetSize(24, 24)
+    checkReadyPrompt:SetHitRectInsets(0, 0, 0, 0)
+    checkReadyPrompt:SetPoint("TOPLEFT", rebuffPanel, "BOTTOMLEFT", x, y)
+    checkReadyPrompt:SetChecked(Rebuff:getSV("options", "readyCheck"))
+    checkReadyPrompt:SetScript("OnClick", function() readyCheck = checkReadyPrompt:GetChecked() end)
+end
+
 
 
 ----------------------------

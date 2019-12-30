@@ -32,7 +32,7 @@ function addon:print()
                 local playerSlot = 8
                 local playerStr = ""
                 while string.len(playerStr .. " ...") < 200 do
-                    if (players) then
+                    if players ~= nil then
                         playerStr = table.concat(players, ", ", 1, playerSlot)
                         playerSlot = playerSlot + 1
                     end
