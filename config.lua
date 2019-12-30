@@ -12,9 +12,9 @@ local buffs, buffIDs = {}, {}
 -- buff role speration
 local roles = {"RAID", "TANKS"}
 
---------------------------
--- (SINGLEBUFF,GROUPBUFF)--
---------------------------
+----------------------------
+-- (SINGLEBUFF,GROUPBUFF) --
+----------------------------
 table.insert(buffIDs, "10157,23028") -- Arcane Intellect, Arcane Brilliance
 table.insert(buffIDs, "10938,21564") -- Power Word: Fortitude, Prayer of Fortitude
 table.insert(buffIDs, "10958,27683") -- Shadow Protection, Prayer of Shadow Protection
@@ -39,9 +39,9 @@ rebuffPanel.name = addonName
 InterfaceOptions_AddCategory(rebuffPanel)
 
 local title = nil
-------------------
---    Events    --
-------------------
+----------------------------
+--          EVENTS        --
+----------------------------
 local function onEvent(self, event, arg1, ...)
     if (event == "ADDON_LOADED" and arg1 == "Rebuff") then
         title = rebuffPanel:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
@@ -164,6 +164,10 @@ function createBuffSelection()
     end
 end
 
+
+----------------------------
+--          EVENTS        --
+----------------------------
 function addon:storeRebuffBuffs(class)
     local storeBuffs = {}
     for i, buff in pairs(buffIDs) do if checkBoxes[class][i]:GetChecked() then table.insert(storeBuffs, i, buff) end end

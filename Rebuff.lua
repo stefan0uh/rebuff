@@ -7,23 +7,6 @@ Rebuff = LibStub("AceAddon-3.0"):NewAddon("Rebuff", "AceEvent-3.0")
 _G[addonName] = addon
 addon.healthCheck = true
 
--- Function to retrieve Saved Variables
-function addon:getSV(category, variable)
-    local vartbl = RebuffDB[category]
-
-    if vartbl == nil then vartbl = {} end
-
-    -- return the full table if no variable is given
-    if variable == nil then return vartbl end
-
-    -- return the requested variable
-    if (vartbl[variable] ~= nil) then
-        return vartbl[variable]
-    else
-        return nil
-    end
-end
-
 -------------------------
 ---     Functions     ---
 -------------------------
@@ -135,8 +118,44 @@ function addon:sendtoChannel(text, channel)
     end
 end
 
-StaticPopupDialogs["REBUFF_PRINT"] = {text = "Do you want to share a rebuff report?", button1 = "Yes", button2 = "No", OnAccept = function() addon:print() end, timeout = 0, whileDead = true, hideOnEscape = true, preferredIndex = 3}
 
+-------------------------
+---  Saved Variables  ---
+-------------------------
+function addon:getSV(category, variable)
+    local vartbl = RebuffDB[category]
+
+    if vartbl == nil then vartbl = {} end
+
+    -- return the full table if no variable is given
+    if variable == nil then return vartbl end
+
+    -- return the requested variable
+    if (vartbl[variable] ~= nil) then
+        return vartbl[variable]
+    else
+        return nil
+    end
+end
+
+-------------------------
+---      Dialog       ---
+-------------------------
+StaticPopupDialogs["REBUFF_PRINT"] = {
+    text = "Do you want to share a rebuff report?",
+    button1 = "Yes",
+    button2 = "No",
+    OnAccept = function() addon:print() end,
+    timeout = 0,
+    whileDead = true,
+    hideOnEscape = true,
+    preferredIndex = 3
+}
+
+
+-------------------------
+---      EVENTS       ---
+-------------------------
 local frame = CreateFrame("FRAME", "REBUFF_PRINT")
 frame:RegisterEvent("READY_CHECK")
 frame:RegisterEvent("ADDON_LOADED")
@@ -146,9 +165,9 @@ frame:SetScript("OnEvent", function(self, event)
     if (event == "ADDON_LOADED" and prefix == "Rebuff") then RebuffDB.db = LibStub("AceDB-3.0"):New("RebuffDB", SettingsDefaults) end
 end)
 
----------------------
---     Commands    --
----------------------
+-------------------------
+---     Commands      ---
+-------------------------
 SlashCmdList["Rebuff"] = function(inArgs)
     local args = strtrim(inArgs)
     if args == "print" then
