@@ -30,13 +30,10 @@ function addon:print()
             if (#players < 5) then
                 addon:sendtoChannel(str .. ": " .. table.concat(players, ", "), channel)
             else
-                local playerSlot = 8
-                local playerStr = ""
-                while string.len(playerStr .. " ...") < 200 do
-                    if players ~= nil then
-                        playerStr = table.concat(players, ", ", 1, playerSlot)
-                        playerSlot = playerSlot + 1
-                    end
+                local slot, playerStr = 0, ""
+                while string.len(playerStr .. " ...") < 220 do
+                    slot = slot + 1
+                    playerStr = playerStr .. players[slot] .. ", " or ""
                 end
                 addon:sendtoChannel(str, channel)
                 addon:sendtoChannel(playerStr .. " ...", channel)
