@@ -23,7 +23,8 @@ function addon:print()
         addon:sendtoChannel("-----------------------------", channel)
         addon:sendtoChannel("Missing Buffs:", channel)
         addon:sendtoChannel("-----------------------------", channel)
-        for buff, players in pairs(partyBuffs) do
+        for buff, raid in pairs(partyBuffs) do
+            local players = table:clean(raid, nil)
             local str = GetSpellInfo(buff) .. " (" .. #players .. ")"
 
             if (#players < 5) then
@@ -94,7 +95,6 @@ function addon:getMissingBuffs(player, role)
         groupBuff = tonumber(groupBuff)
 
         if not ((className == "ROGUE" or className == "WARRIOR") and (groupBuff == 23028 or groupBuff == 27681)) then
-
             local buffSlotOnPlayer = 1
             local buff, _, _, _, _, _, _, _, _, spellID = UnitBuff(player, buffSlotOnPlayer)
             spellID = tonumber(spellID)
@@ -118,6 +118,15 @@ function addon:sendtoChannel(text, channel)
     end
 end
 
+function table:clean(t, object)
+    local tmp = {}
+    for index = 1, #t do
+        if(t[index] ~= object) then
+            table.insert(tmp, t[index])
+        end
+    end
+    return tmp
+end
 
 -------------------------
 ---  Saved Variables  ---
@@ -151,7 +160,6 @@ StaticPopupDialogs["REBUFF_PRINT"] = {
     hideOnEscape = true,
     preferredIndex = 3
 }
-
 
 -------------------------
 ---      EVENTS       ---

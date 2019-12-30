@@ -60,10 +60,9 @@ local function onEvent(self, event, arg1, ...)
     end
 end
 
-
-function createBuffSelection(x,y)
+function createBuffSelection(x, y)
     local labelBuffs = rebuffPanel:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
-    labelBuffs:SetPoint("TOPLEFT", rebuffPanel, "TOPLEFT", x,y)
+    labelBuffs:SetPoint("TOPLEFT", rebuffPanel, "TOPLEFT", x, y)
     labelBuffs:SetText("Buffs")
 
     local buffTitles = {}
@@ -112,11 +111,11 @@ function createBuffSelection(x,y)
     end
 end
 
-function createChannelDropdown(x,y)
+function createChannelDropdown(x, y)
     channel = Rebuff:getSV("options", "channel")
 
     local labelChannelDropdown = rebuffPanel:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
-    labelChannelDropdown:SetPoint("TOPLEFT", rebuffPanel, "BOTTOMLEFT",  x, y)
+    labelChannelDropdown:SetPoint("TOPLEFT", rebuffPanel, "BOTTOMLEFT", x, y)
     labelChannelDropdown:SetJustifyH("LEFT")
     labelChannelDropdown:SetText("Select a broadcast channel")
 
@@ -153,7 +152,6 @@ function createChannelDropdown(x,y)
     UIDropDownMenu_JustifyText(sendChannelSelect, "LEFT")
     UIDropDownMenu_SetSelectedName(sendChannelSelect, channel)
 
-    
 end
 
 function createReadycheckCheckbox(x, y)
@@ -170,8 +168,6 @@ function createReadycheckCheckbox(x, y)
     checkReadyPrompt:SetChecked(Rebuff:getSV("options", "readyCheck"))
     checkReadyPrompt:SetScript("OnClick", function() readyCheck = checkReadyPrompt:GetChecked() end)
 end
-
-
 
 ----------------------------
 --          EVENTS        --
