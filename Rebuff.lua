@@ -120,11 +120,7 @@ end
 
 function table:clean(t, object)
     local tmp = {}
-    for index = 1, #t do
-        if(t[index] ~= object) then
-            table.insert(tmp, t[index])
-        end
-    end
+    for index = 1, #t do if (t[index] ~= object) then table.insert(tmp, t[index]) end end
     return tmp
 end
 
