@@ -49,7 +49,7 @@ function addon:print()
                 local playerSlot = 8
                 local playerStr = ""
                 while string.len(playerStr .. " ...") < 200 do
-                    if(players) then
+                    if (players) then
                         playerStr = table.concat(players, ", ", 1, playerSlot)
                         playerSlot = playerSlot + 1
                     end
@@ -79,8 +79,7 @@ function addon:groupCheck()
             name = UnitName("player")
             online = true
         else
-            name, _, subgroup, _, _, _, _, online, isDead, role =
-                GetRaidRosterInfo(groupIndex)
+            name, _, subgroup, _, _, _, _, online, isDead, role = GetRaidRosterInfo(groupIndex)
         end
 
         if online and name ~= nil then
@@ -114,18 +113,14 @@ function addon:getMissingBuffs(player, role)
         if not ((className == "ROGUE" or className == "WARRIOR") and (groupBuff == 23028 or groupBuff == 27681)) then
 
             local buffSlotOnPlayer = 1
-            local buff, _, _, _, _, _, _, _, _, spellID =
-                UnitBuff(player, buffSlotOnPlayer)
+            local buff, _, _, _, _, _, _, _, _, spellID = UnitBuff(player, buffSlotOnPlayer)
             spellID = tonumber(spellID)
             table.insert(missingBuffs, groupBuff)
 
             while buff do
-                if (singleBuff == spellID or groupBuff == spellID) then
-                    table.remove(missingBuffs)
-                end
+                if (singleBuff == spellID or groupBuff == spellID) then table.remove(missingBuffs) end
                 buffSlotOnPlayer = buffSlotOnPlayer + 1
-                buff, _, _, _, _, _, _, _, _, spellID =
-                    UnitBuff(player, buffSlotOnPlayer)
+                buff, _, _, _, _, _, _, _, _, spellID = UnitBuff(player, buffSlotOnPlayer)
             end
         end
     end
@@ -140,16 +135,7 @@ function addon:sendtoChannel(text, channel)
     end
 end
 
-StaticPopupDialogs["REBUFF_PRINT"] = {
-    text = "Do you want to share a rebuff report?",
-    button1 = "Yes",
-    button2 = "No",
-    OnAccept = function() addon:print() end,
-    timeout = 0,
-    whileDead = true,
-    hideOnEscape = true,
-    preferredIndex = 3
-}
+StaticPopupDialogs["REBUFF_PRINT"] = {text = "Do you want to share a rebuff report?", button1 = "Yes", button2 = "No", OnAccept = function() addon:print() end, timeout = 0, whileDead = true, hideOnEscape = true, preferredIndex = 3}
 
 local frame = CreateFrame("FRAME", "REBUFF_PRINT")
 frame:RegisterEvent("READY_CHECK")
@@ -157,9 +143,7 @@ frame:RegisterEvent("ADDON_LOADED")
 frame:RegisterEvent("PLAYER_ENTERING_WORLD")
 frame:SetScript("OnEvent", function(self, event)
     if (event == "READY_CHECK") and (Rebuff:getSV("options", "readyCheck")) then StaticPopup_Show("REBUFF_PRINT") end
-    if (event == "ADDON_LOADED" and prefix == "Rebuff") then
-        RebuffDB.db = LibStub("AceDB-3.0"):New("RebuffDB", SettingsDefaults)
-    end
+    if (event == "ADDON_LOADED" and prefix == "Rebuff") then RebuffDB.db = LibStub("AceDB-3.0"):New("RebuffDB", SettingsDefaults) end
 end)
 
 ---------------------
@@ -175,10 +159,9 @@ SlashCmdList["Rebuff"] = function(inArgs)
     else
         if (Rebuff:getSV("options", "readyCheck")) then StaticPopup_Show("REBUFF_PRINT") end
 
-        print("/rebuff or /rb")
-        print(" ")
-        print("/rb print - (Share the buff report)")
-        print("/rb config - (Open the " .. addonName .. "-settings)")
+        print("|cFFFF0000Rebuff broadcast")
+        print("|r/rebuff |cFF00FF00print |r(Share the buff report)")
+        print("|r/rebuff |cFF00FF00config")
     end
 
 end
