@@ -4,10 +4,32 @@ local AceGUI = LibStub("AceGUI-3.0")
 local playerFaction = UnitFactionGroup("player")
 
 local channel = nil
-local classes, checkBoxes = {}, {}
+local checkBoxes = {}
 
 local buffs, buffIDs = {}, {}
 
+-- buff role speration
+local roles = {"RAID", "TANKS"}
+
+--------------------------
+--(SINGLEBUFF,GROUPBUFF)--
+--------------------------
+table.insert(buffIDs, "10157,23028") -- Arcane Intellect, Arcane Brilliance
+table.insert(buffIDs, "10938,21564") -- Power Word: Fortitude, Prayer of Fortitude
+table.insert(buffIDs, "10958,27683") -- Shadow Protection, Prayer of Shadow Protection
+table.insert(buffIDs, "27841,27681") -- Divine Spirit, Prayer of Spirit
+table.insert(buffIDs, "9885,21850") -- Mark of the Wild, Gift of the Wild
+table.insert(buffIDs, "9910,9910") -- Thorns (Rank 6)
+
+if playerFaction == "Alliance" then
+    table.insert(buffIDs, "20217,25898") --Blessing of Kings, Greater Blessing of Kings
+    table.insert(buffIDs, "25291,25916") -- Blessing of Might, Greater Blessing of Might
+    table.insert(buffIDs, "1038,25895") -- Blessing of Salvation, Greater Blessing of Salvation
+    table.insert(buffIDs, "25290,25918") -- Blessing of Wisdom, Greater Blessing of Wisdom
+    table.insert(buffIDs, "20914,25899") -- Blessing of Sanctuary, Greater Blessing of Sanctuary
+end
+
+-- settings pannel spacer
 local offset = 16
 
 -- Main options panel
@@ -25,7 +47,6 @@ title:SetText(addonName)
 ------------------
 local function onEvent(self, event, arg1, ...)
     if (event == "ADDON_LOADED" and arg1 == "Rebuff") then
-
         local labelChannelDropdown = rebuffPanel:CreateFontString(nil,"ARTWORK","GameFontHighlight")
         labelChannelDropdown:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -offset * 2)
         labelChannelDropdown:SetJustifyH("LEFT")
@@ -85,22 +106,7 @@ local function onEvent(self, event, arg1, ...)
 
         if ("BUFF CHECKBOXS") then
             local buffTitles = {}
-
-            classes = {"RAID", "TANKS"}
-            buffIDs = {
-                "10157,23028", "10938,21564", "10958,27683", "27841,27681",
-                "9885,21850", "9910,9910",
-            }
-
-            if playerFaction == "Alliance" then
-                table.insert(buffIDs, "20217,25898")
-                table.insert(buffIDs, "25291,25916")
-                table.insert(buffIDs, "1038,25895")
-                table.insert(buffIDs, "25290,25918")
-                table.insert(buffIDs, "20914,25899")
-            end
-
-            for i, class in pairs(classes) do
+            for i, class in pairs(roles) do
                 checkBoxes[class] = {}
 
                 local labelClassBuff = rebuffPanel:CreateFontString(nil, "ARTWORK","GameFontHighlight")
@@ -162,7 +168,7 @@ end
 --- Save items when the Okay button is pressed ---
 --------------------------------------------------
 rebuffPanel.okay = function(self)
-    for i, class in pairs(classes) do addon:storeRebuffBuffs(class) end
+    for i, class in pairs(roles) do addon:storeRebuffBuffs(class) end
 
     RebuffDB["buffs"] = buffs
     RebuffDB["options"] = {channel = channel}
