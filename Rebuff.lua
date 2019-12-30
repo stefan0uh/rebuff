@@ -156,9 +156,8 @@ frame:RegisterEvent("READY_CHECK")
 frame:RegisterEvent("ADDON_LOADED")
 frame:RegisterEvent("PLAYER_ENTERING_WORLD")
 frame:SetScript("OnEvent", function(self, event)
-    if (event == "READY_CHECK") then StaticPopup_Show("REBUFF_PRINT") end
+    if (event == "READY_CHECK") and (Rebuff:getSV("options", "readyCheck")) then StaticPopup_Show("REBUFF_PRINT") end
     if (event == "ADDON_LOADED" and prefix == "Rebuff") then
-        print(addonName .. "loaded")
         RebuffDB.db = LibStub("AceDB-3.0"):New("RebuffDB", SettingsDefaults)
     end
 end)
@@ -174,7 +173,7 @@ SlashCmdList["Rebuff"] = function(inArgs)
         InterfaceOptionsFrame_OpenToCategory(rebuffPanel)
         InterfaceOptionsFrame_OpenToCategory(rebuffPanel)
     else
-        StaticPopup_Show("REBUFF_PRINT")
+        if (Rebuff:getSV("options", "readyCheck")) then StaticPopup_Show("REBUFF_PRINT") end
 
         print("/rebuff or /rb")
         print(" ")

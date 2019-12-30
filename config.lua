@@ -5,6 +5,7 @@ local playerFaction = UnitFactionGroup("player")
 
 local channel = nil
 local checkBoxes = {}
+local readyCheck = nil
 
 local buffs, buffIDs = {}, {}
 
@@ -37,21 +38,15 @@ rebuffPanel = CreateFrame("Frame")
 rebuffPanel.name = addonName
 InterfaceOptions_AddCategory(rebuffPanel)
 
-local title =
-    rebuffPanel:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
-title:SetPoint("TOPLEFT", rebuffPanel, "TOPLEFT", offset, -offset)
-title:SetText(addonName)
-
 ------------------
 --    Events    --
 ------------------
 local function onEvent(self, event, arg1, ...)
     if (event == "ADDON_LOADED" and arg1 == "Rebuff") then
-        local labelChannelDropdown = rebuffPanel:CreateFontString(nil,"ARTWORK","GameFontHighlight")
-        labelChannelDropdown:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -offset * 2)
-        labelChannelDropdown:SetJustifyH("LEFT")
-        labelChannelDropdown:SetText("Select the channel for broadcasts.")
-
+        local title =
+        rebuffPanel:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
+        title:SetPoint("TOPLEFT", rebuffPanel, "TOPLEFT", offset, -offset)
+        title:SetText(addonName)
         if ("Channel DROPDOWN") then
             ----------------------------------------
             -- Drop Down Menu broadcast channels ---
@@ -63,14 +58,13 @@ local function onEvent(self, event, arg1, ...)
             end
 
             sendChannelSelect:ClearAllPoints()
-            sendChannelSelect:SetPoint("TOPLEFT", labelChannelDropdown, -offset, -offset * 2)
+            sendChannelSelect:SetPoint("TOPLEFT", title, "BOTTOMLEFT", -offset, -offset)
             sendChannelSelect:Show()
 
             -- return dropdown selection
             local function OnClick(self)
                 UIDropDownMenu_SetSelectedID(sendChannelSelect, self:GetID(), text, value)
                 channel = self.value
-                -- return channel
             end
 
             -- dropdown box properties
@@ -90,19 +84,35 @@ local function onEvent(self, event, arg1, ...)
 
             UIDropDownMenu_Initialize(sendChannelSelect, initialize)
             UIDropDownMenu_SetWidth(sendChannelSelect, 100)
-            UIDropDownMenu_SetButtonWidth(sendChannelSelect, 124)
+            UIDropDownMenu_SetButtonWidth(sendChannelSelect, 100)
             UIDropDownMenu_JustifyText(sendChannelSelect, "LEFT")
             UIDropDownMenu_SetSelectedName(sendChannelSelect, channel)
+
+              
+            local labelChannelDropdown = rebuffPanel:CreateFontString(nil,"ARTWORK","GameFontHighlight")
+            labelChannelDropdown:SetPoint("TOPLEFT", sendChannelSelect, "TOPLEFT", 148, -8)
+            labelChannelDropdown:SetJustifyH("LEFT")
+            labelChannelDropdown:SetText("Broadcast channel")
         end
 
+        local checkReadyPrompt = CreateFrame("CheckButton", "checkReadyPrompt",rebuffPanel, "InterfaceOptionsCheckButtonTemplate")
+        checkReadyPrompt:SetSize(24, 24)
+        checkReadyPrompt:SetHitRectInsets(0, 0, 0, 0)
+        checkReadyPrompt:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -offset * 4)
+        checkReadyPrompt:SetChecked(Rebuff:getSV("options", "readyCheck"))
+        checkReadyPrompt:SetScript("OnClick", function()
+            readyCheck = checkReadyPrompt:GetChecked()
+        end)
+
         local labelReadyPrompt = rebuffPanel:CreateFontString(nil,"ARTWORK","GameFontHighlight")
-        labelReadyPrompt:SetPoint("TOPLEFT", title, "BOTTOMLEFT", offset * 4, -offset * 2)
+        labelReadyPrompt:SetPoint("TOPLEFT", checkReadyPrompt, "TOPLEFT", 32, -6)
         labelReadyPrompt:SetJustifyH("LEFT")
-        labelReadyPrompt:SetText("Readycheck, prompt for broadcasts.")
+        labelReadyPrompt:SetText("Broadcast after READYCHECK")
 
         local labelBuffs = rebuffPanel:CreateFontString(nil, "ARTWORK","GameFontNormalLarge")
-        labelBuffs:SetPoint("TOPLEFT", labelChannelDropdown, "TOPLEFT", 0, -(offset * 6))
+        labelBuffs:SetPoint("TOPLEFT", title, "TOPLEFT", 0, -(offset * 8))
         labelBuffs:SetText("Buffs")
+        
 
         if ("BUFF CHECKBOXS") then
             local buffTitles = {}
@@ -135,19 +145,20 @@ local function onEvent(self, event, arg1, ...)
                         buffTitles[index] = title
                     end
 
-                    -- -- Create the checkbuttons
-                    local checkName = class .. "checkBox"
-                    local checkBox = CreateFrame("CheckButton", checkName,rebuffPanel, "InterfaceOptionsCheckButtonTemplate")
-                    checkBox.tooltipText = class .. " > " .. groupBuff
-                    checkBox:SetSize(24, 24)
-                    checkBox:SetHitRectInsets(0, 0, 0, 0)
-                    checkBox:SetPoint("TOPLEFT", labelClassBuff, "TOPLEFT", 0, yOffset)
-                    -- -- Update list of buffs when a box is checked or unchecked
-                    checkBox:SetScript("OnClick", function()
-                        addon:storeRebuffBuffs(class)
-                    end)
-                    checkBoxes[class][index] = checkBox
-                    checkBoxes[class][index]:SetChecked(buffList[index] ~= nil)
+                    if("checkbuttons") then
+                        local checkName = class .. "checkBox"
+                        local checkBox = CreateFrame("CheckButton", checkName,rebuffPanel, "InterfaceOptionsCheckButtonTemplate")
+                        checkBox.tooltipText = class .. " > " .. groupBuff
+                        checkBox:SetSize(24, 24)
+                        checkBox:SetHitRectInsets(0, 0, 0, 0)
+                        checkBox:SetPoint("TOPLEFT", labelClassBuff, "TOPLEFT", 0, yOffset)
+                        -- -- Update list of buffs when a box is checked or unchecked
+                        checkBox:SetScript("OnClick", function()
+                            addon:storeRebuffBuffs(class)
+                        end)
+                        checkBoxes[class][index] = checkBox
+                        checkBoxes[class][index]:SetChecked(buffList[index] ~= nil)
+                    end
                 end
             end
         end
@@ -171,7 +182,7 @@ rebuffPanel.okay = function(self)
     for i, class in pairs(roles) do addon:storeRebuffBuffs(class) end
 
     RebuffDB["buffs"] = buffs
-    RebuffDB["options"] = {channel = channel}
+    RebuffDB["options"] = {channel = channel, readyCheck = readyCheck}
 end
 
 rebuffPanel:RegisterEvent("ADDON_LOADED")
