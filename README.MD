@@ -3,6 +3,8 @@ Check for missing raidbuffs and share a report to your group.
 
 > **Rewitten by Author:** Toolate (The Dominion) - Nethergarde-Keep EU
 
+https://www.curseforge.com/wow/addons/rebuff
+
 ## Options:
 * Select broadcast channel (RAID, PARTY, SAY)
 * Separate buffs for RAID and TANKS (TANKS needed to be marked as MAINTANK or MAINASSIST)
