@@ -1,7 +1,7 @@
 # Rebuff
 Check for missing raidbuffs and share a report to your group.
 
-> **Author:** Toolate (The Dominion) - Nethergarde-Keep EU
+> **Rewitten by Author:** Toolate (The Dominion) - Nethergarde-Keep EU
 >
 > **Original Author:** Moxie (Always East) - Classic WoW Beta PvP
 
