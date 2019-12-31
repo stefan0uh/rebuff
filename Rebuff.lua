@@ -23,25 +23,18 @@ function addon:print()
         addon:sendtoChannel("-----------------------------", channel)
         addon:sendtoChannel("Missing Buffs:", channel)
         addon:sendtoChannel("-----------------------------", channel)
-        for buff, raid in pairs(partyBuffs) do
-            local players = table:clean(raid, nil)
+        for buff, players in pairs(partyBuffs) do
             local str = GetSpellInfo(buff) .. " (" .. #players .. ")"
-
             if (#players < 5) then
-                addon:sendtoChannel(str .. ": " .. table.concat(players, ", "), channel)
+                addon:sendtoChannel(str .. ": " .. addon:getPlayers(players), channel)
             else
-                local slot, playerStr = 0, ""
-                while string.len(playerStr .. " ...") < 220 do
-                    slot = slot + 1
-                    playerStr = playerStr .. players[slot] .. ", " or ""
-                end
                 addon:sendtoChannel(str, channel)
-                addon:sendtoChannel(playerStr .. " ...", channel)
+                addon:sendtoChannel(addon:getPlayers(players) .. " ...", channel)
             end
         end
     else
         addon:sendtoChannel("-----------------------------", channel)
-        addon:sendtoChannel("All players are buffed", channel)
+        addon:sendtoChannel("All players are buffed, YEAH!", channel)
         addon:sendtoChannel("-----------------------------", channel)
     end
 end
@@ -62,15 +55,11 @@ function addon:groupCheck()
         else
             name, _, subgroup, _, _, _, _, online, isDead, role = GetRaidRosterInfo(groupIndex)
         end
-
         if online and name ~= nil then
             local playerMissing = addon:getMissingBuffs(name, role)
             for index, buff in pairs(playerMissing) do
-                if missingBuffs[buff] == nil then
-                    missingBuffs[buff] = {name}
-                else
-                    table.insert(missingBuffs[buff], name)
-                end
+                if missingBuffs[buff] == nil then missingBuffs[buff] = {} end
+                table.insert(missingBuffs[buff], name)
             end
         end
     end
@@ -115,10 +104,18 @@ function addon:sendtoChannel(text, channel)
     end
 end
 
-function table:clean(t, object)
-    local tmp = {}
-    for index = 1, #t do if (t[index] ~= object) then table.insert(tmp, t[index]) end end
-    return tmp
+function addon:getPlayers(players)
+    local str = ""
+    for index, v in ipairs(players) do
+        if (string.len(str .. " ...") < 220) then
+            if (index < #players) then
+                str = str .. v .. ", "
+            else
+                str = str .. v
+            end
+        end
+    end
+    return str
 end
 
 -------------------------
