@@ -60,7 +60,7 @@ local function onEvent(self, event, arg1, ...)
 
         createBuffSelection(offset, -offset * 6)
         createChannelDropdown(offset, 80)
-        createReadycheckCheckbox(250, 50)
+        createReadycheckCheckbox(250, 55)
     end
 end
 
@@ -106,12 +106,16 @@ function createBuffSelection(x, y)
                 checkBox:SetSize(24, 24)
                 checkBox:SetHitRectInsets(0, 0, 0, 0)
                 checkBox:SetPoint("TOPLEFT", labelClassBuff, "TOPLEFT", 0, yOffset)
-                -- -- Update list of buffs when a box is checked or unchecked
                 checkBox:SetScript("OnClick", function() addon:storeRebuffBuffs(class) end)
                 checkBoxes[class][index] = checkBox
-                if (class == "TANKS" and (buffID == 23028 or buffID == 27681)) then 
+             
+                -- Arcane Brilliance > 23028
+                -- Prayer of Spirit > 27681
+                -- Thorns (Rank 6) > 9910
+                if (class == "TANKS" and (buffID == 23028 or buffID == 27681)) or
+                    (class == "RAID" and (buffID == 9910)) then
                     checkBoxes[class][index]:SetEnabled(false)
-                    checkBoxes[class][index]:SetAlpha(.5)
+                    checkBoxes[class][index]:SetAlpha(.35)
                 end
                 checkBoxes[class][index]:SetChecked(buffList[index] ~= nil)
             end
