@@ -15,9 +15,6 @@ local roles = {"RAID", "TANKS"}
 ----------------------------
 -- (SINGLEBUFF,GROUPBUFF) --
 ----------------------------
-----------------------------
--- (SINGLEBUFF,GROUPBUFF) --
-----------------------------
 table.insert(buffIDs, {single = 10157, group = 23028}) -- Arcane Intellect, Arcane Brilliance
 table.insert(buffIDs, {single = 10174}) -- Dampen Magic (Rank 5)
 table.insert(buffIDs, {single = 9885, group = 21850}) -- Mark of the Wild, Gift of the Wild
@@ -55,7 +52,7 @@ local function onEvent(self, event, arg1, ...)
 
         description = rebuffPanel:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
         description:SetPoint("TOPLEFT", title, "TOPLEFT", 0, -offset * 1.5)
-        description:SetText("Separate buffs for RAID and TANKS \n(TANKS needed to be marked as MAINTANK or MAINASSIST)")
+        description:SetText("TANKS are needed to be marked as MAIN TANK or MAIN ASSIST in a raid.\nMelees(Rogues, Warriors) are not counted for INT or SPIRIT")
         description:SetJustifyH("LEFT")
 
         createBuffSelection(offset, -offset * 6)
