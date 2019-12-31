@@ -108,16 +108,18 @@ function createBuffSelection(x, y)
                 checkBox:SetPoint("TOPLEFT", labelClassBuff, "TOPLEFT", 0, yOffset)
                 checkBox:SetScript("OnClick", function() addon:storeRebuffBuffs(class) end)
                 checkBoxes[class][index] = checkBox
-             
+
                 -- Arcane Brilliance > 23028
                 -- Prayer of Spirit > 27681
                 -- Thorns (Rank 6) > 9910
-                if (class == "TANKS" and (buffID == 23028 or buffID == 27681)) or
-                    (class == "RAID" and (buffID == 9910)) then
+                if (class == "TANKS" and (buffID == 23028 or buffID == 27681)) or (class == "RAID" and (buffID == 9910)) then
                     checkBoxes[class][index]:SetEnabled(false)
                     checkBoxes[class][index]:SetAlpha(.35)
+                    checkBoxes[class][index]:SetChecked(false)
+                else
+                    checkBoxes[class][index]:SetChecked(buffList[index] ~= nil)
                 end
-                checkBoxes[class][index]:SetChecked(buffList[index] ~= nil)
+
             end
         end
     end
