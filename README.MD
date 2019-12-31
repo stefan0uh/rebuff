@@ -2,8 +2,6 @@
 Check for missing raidbuffs and share a report to your group.
 
 > **Rewitten by Author:** Toolate (The Dominion) - Nethergarde-Keep EU
->
-> **Original Author:** Moxie (Always East) - Classic WoW Beta PvP
 
 ## Options:
 * Select broadcast channel (RAID, PARTY, SAY)
