@@ -76,7 +76,7 @@ function addon:getMissingBuffs(player, role)
     local buffList = addon:getSV("buffs", class)
 
     for index, buff in pairs(buffList) do
-        local group = buff.groupID or buff.singleID
+        local group = buff.group or buff.single
 
         -- Arcane Brilliance > 23028
         -- Prayer of Spirit > 27681
@@ -87,7 +87,7 @@ function addon:getMissingBuffs(player, role)
             table.insert(missingBuffs, group)
 
             while buff do
-                if (buff.singleID == spellID or group == spellID) then table.remove(missingBuffs) end
+                if (buff.single == spellID or group == spellID) then table.remove(missingBuffs) end
                 buffSlotOnPlayer = buffSlotOnPlayer + 1
                 buff, _, _, _, _, _, _, _, _, spellID = UnitBuff(player, buffSlotOnPlayer)
             end

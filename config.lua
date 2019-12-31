@@ -18,21 +18,20 @@ local roles = {"RAID", "TANKS"}
 ----------------------------
 -- (SINGLEBUFF,GROUPBUFF) --
 ----------------------------
-table.insert(buffIDs, {singleID = 10157, groupID = 23028}) -- Arcane Intellect, Arcane Brilliance
-table.insert(buffIDs, {singleID = 10174}) -- Dampen Magic (Rank 5)
-table.insert(buffIDs, {singleID = 9885, groupID = 21850}) -- Mark of the Wild, Gift of the Wild
-table.insert(buffIDs, {singleID = 10938, groupID = 21564}) -- Power Word: Fortitude, Prayer of Fortitude
-table.insert(buffIDs, {singleID = 10958, groupID = 27683}) -- Shadow Protection, Prayer of Shadow Protection
-table.insert(buffIDs, {singleID = 27841, groupID = 27681}) -- Divine Spirit, Prayer of Spirit
-table.insert(buffIDs, {singleID = 9910}) -- Thorns (Rank 6)
-
+table.insert(buffIDs, {single = 10157, group = 23028}) -- Arcane Intellect, Arcane Brilliance
+table.insert(buffIDs, {single = 10174}) -- Dampen Magic (Rank 5)
+table.insert(buffIDs, {single = 9885, group = 21850}) -- Mark of the Wild, Gift of the Wild
+table.insert(buffIDs, {single = 10938, group = 21564}) -- Power Word: Fortitude, Prayer of Fortitude
+table.insert(buffIDs, {single = 10958, group = 27683}) -- Shadow Protection, Prayer of Shadow Protection
+table.insert(buffIDs, {single = 27841, group = 27681}) -- Divine Spirit, Prayer of Spirit
+table.insert(buffIDs, {single = 9910}) -- Thorns (Rank 6)
 
 if playerFaction == "Alliance" then
-    table.insert(buffIDs, {singleID = 20217, groupID = 25898}) -- Blessing of Kings, Greater Blessing of Kings
-    table.insert(buffIDs, {singleID = 25291, groupID = 25916}) -- Blessing of Might, Greater Blessing of Might
-    table.insert(buffIDs, {singleID = 1038, groupID = 25895}) -- Blessing of Salvation, Greater Blessing of Salvation
-    table.insert(buffIDs, {singleID = 25290, groupID = 25918}) -- Blessing of Wisdom, Greater Blessing of Wisdom
-    table.insert(buffIDs, {singleID = 20914, groupID = 25899}) -- Blessing of Sanctuary, Greater Blessing of Sanctuary
+    table.insert(buffIDs, {single = 20217, group = 25898}) -- Blessing of Kings, Greater Blessing of Kings
+    table.insert(buffIDs, {single = 25291, group = 25916}) -- Blessing of Might, Greater Blessing of Might
+    table.insert(buffIDs, {single = 1038, group = 25895}) -- Blessing of Salvation, Greater Blessing of Salvation
+    table.insert(buffIDs, {single = 25290, group = 25918}) -- Blessing of Wisdom, Greater Blessing of Wisdom
+    table.insert(buffIDs, {single = 20914, group = 25899}) -- Blessing of Sanctuary, Greater Blessing of Sanctuary
 end
 
 -- settings pannel spacer
@@ -82,8 +81,9 @@ function createBuffSelection(x, y)
 
         for index, buff in pairs(buffIDs) do
             local yOffset = ((4 - offset) + (-16)) * index
+            local buffID = buff.group or buff.single
 
-            local buffName, _, spellIcon = GetSpellInfo(buff.groupID or buff.singleID)
+            local buffName, _, spellIcon = GetSpellInfo(buffID)
 
             if not buffTitles[index] then
                 local buffIcon = CreateFrame("Button", nil, rebuffPanel)
@@ -109,6 +109,10 @@ function createBuffSelection(x, y)
                 -- -- Update list of buffs when a box is checked or unchecked
                 checkBox:SetScript("OnClick", function() addon:storeRebuffBuffs(class) end)
                 checkBoxes[class][index] = checkBox
+                if (class == "TANKS" and (buffID == 23028 or buffID == 27681)) then 
+                    checkBoxes[class][index]:SetEnabled(false)
+                    checkBoxes[class][index]:SetAlpha(.5)
+                end
                 checkBoxes[class][index]:SetChecked(buffList[index] ~= nil)
             end
         end
