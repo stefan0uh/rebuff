@@ -22,7 +22,7 @@ function addon:print()
         addon:sendtoChannel("-----------------------------", channel)
         addon:sendtoChannel("Missing Buffs:", channel)
         addon:sendtoChannel("-----------------------------", channel)
-        for buff, players in pairsByKeys(partyBuffs) do
+        for buff, players in addon:pairsByKeys(partyBuffs) do
             local str = buff .. " (" .. #players .. ")"
             if (#players < 5) then
                 addon:sendtoChannel(str .. ": " .. addon:getPlayers(players), channel)
@@ -57,9 +57,8 @@ function addon:groupCheck()
         if online and name ~= nil then
             local playerMissing = addon:getMissingBuffs(name, role)
             for index, buff in pairs(playerMissing) do
-                buff = GetSpellInfo(buff)
-                if missingBuffs[buff] == nil then missingBuffs[buff] = {} end
-                table.insert(missingBuffs[buff], name)
+                if missingBuffs[buff.name] == nil then missingBuffs[buff.name] = {} end
+                table.insert(missingBuffs[buff.name], name)
             end
         end
     end
@@ -68,28 +67,22 @@ end
 
 function addon:getMissingBuffs(player, role)
     local missingBuffs = {}
-    local class = "RAID"
-    local _, className = UnitClass(player)
+    local _, class = UnitClass(player)
+    local playerRole = addon:getRole(class, role)
 
-    if role == "MAINTANK" or role == "MAINASSIST" then class = "TANKS" end
-
-    local buffList = addon:getSV("buffs", class)
-
-    for index, buff in pairs(buffList) do
-        local group = buff.group or buff.single
-
-        -- Arcane Brilliance > 23028
-        -- Prayer of Spirit > 27681
-        if not ((className == "ROGUE" or className == "WARRIOR") and (group == 23028 or group == 27681)) then
+    for index, buff in pairs(addon:getSV("buffs", playerRole.name)) do
+        if addon:hasNOTValue(buff.roles, playerRole) then
             local buffSlotOnPlayer = 1
-            local buff, _, _, _, _, _, _, _, _, spellID = UnitBuff(player, buffSlotOnPlayer)
+            local _, _, _, _, _, _, _, _, _, spellID = UnitBuff(player, buffSlotOnPlayer)
             spellID = tonumber(spellID)
-            table.insert(missingBuffs, group)
+            table.insert(missingBuffs, buff)
 
-            while buff do
-                if (buff.single == spellID or group == spellID) then table.remove(missingBuffs) end
+            while spellID do
+                if (addon:hasValue(buff.ids, spellID)) then 
+                    table.remove(missingBuffs) 
+                end
                 buffSlotOnPlayer = buffSlotOnPlayer + 1
-                buff, _, _, _, _, _, _, _, _, spellID = UnitBuff(player, buffSlotOnPlayer)
+                _, _, _, _, _, _, _, _, _, spellID = UnitBuff(player, buffSlotOnPlayer)
             end
         end
     end
@@ -116,25 +109,6 @@ function addon:getPlayers(players)
         end
     end
     return str
-end
-
--------------------------
----      HELPER       ---
--------------------------
-function pairsByKeys(t, f)
-    local a = {}
-    for n in pairs(t) do table.insert(a, n) end
-    table.sort(a, f)
-    local i = 0 -- iterator variable
-    local iter = function() -- iterator function
-        i = i + 1
-        if a[i] == nil then
-            return nil
-        else
-            return a[i], t[a[i]]
-        end
-    end
-    return iter
 end
 
 -------------------------

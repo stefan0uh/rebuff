@@ -1,35 +1,11 @@
 local addonName, addon = ...
 
 local AceGUI = LibStub("AceGUI-3.0")
-local playerFaction = UnitFactionGroup("player")
 
-local channel = nil
 local checkBoxes = {}
-local readyCheck = nil
+local options = {}
 
-local buffs, buffIDs = {}, {}
-
--- buff role speration
-local roles = {"RAID", "TANKS"}
-
-----------------------------
--- (SINGLEBUFF,GROUPBUFF) --
-----------------------------
-table.insert(buffIDs, {single = 10157, group = 23028}) -- Arcane Intellect, Arcane Brilliance
-table.insert(buffIDs, {single = 10174}) -- Dampen Magic (Rank 5)
-table.insert(buffIDs, {single = 9885, group = 21850}) -- Mark of the Wild, Gift of the Wild
-table.insert(buffIDs, {single = 10938, group = 21564}) -- Power Word: Fortitude, Prayer of Fortitude
-table.insert(buffIDs, {single = 10958, group = 27683}) -- Shadow Protection, Prayer of Shadow Protection
-table.insert(buffIDs, {single = 27841, group = 27681}) -- Divine Spirit, Prayer of Spirit
-table.insert(buffIDs, {single = 9910}) -- Thorns (Rank 6)
-
-if playerFaction == "Alliance" then
-    table.insert(buffIDs, {single = 20217, group = 25898}) -- Blessing of Kings, Greater Blessing of Kings
-    table.insert(buffIDs, {single = 25291, group = 25916}) -- Blessing of Might, Greater Blessing of Might
-    table.insert(buffIDs, {single = 1038, group = 25895}) -- Blessing of Salvation, Greater Blessing of Salvation
-    table.insert(buffIDs, {single = 25290, group = 25918}) -- Blessing of Wisdom, Greater Blessing of Wisdom
-    table.insert(buffIDs, {single = 20914, group = 25899}) -- Blessing of Sanctuary, Greater Blessing of Sanctuary
-end
+local selectedBuffs = {}
 
 -- settings pannel spacer
 local offset = 16
@@ -57,7 +33,8 @@ local function onEvent(self, event, arg1, ...)
 
         createBuffSelection(offset, -offset * 6)
         createChannelDropdown(offset, 80)
-        createReadycheckCheckbox(250, 55)
+        createCheckBox("readyCheck", {x = 250, y = 55}, "Broadcast prompt after READYCHECK", readyCheck)
+        createCheckBox("potions", {x = 250, y = 90}, "Use elixis", potions)
     end
 end
 
@@ -67,22 +44,25 @@ function createBuffSelection(x, y)
     labelBuffs:SetText("Buffs")
 
     local buffTitles = {}
-    for i, class in pairs(roles) do
-        checkBoxes[class] = {}
+    for i, role in pairs(addon.roles) do
+
+        local name = role.name
+        checkBoxes[name] = {}
 
         local labelClassBuff = rebuffPanel:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
         labelClassBuff:SetPoint("TOPLEFT", labelBuffs, "TOPLEFT", 200 + (offset * 4 * i), 0)
-        labelClassBuff:SetText(class)
+        labelClassBuff:SetText(name)
 
-        local buffList = Rebuff:getSV("buffs", class) or {}
+        local selectedBuffs = Rebuff:getSV("buffs", name) or {}
 
-        for index, buff in pairs(buffIDs) do
+        for index, buff in pairs(addon.ids.buffs) do
             local yOffset = ((4 - offset) + (-16)) * index
-            local buffID = buff.group or buff.single
+            local spellId = buff.ids[1]
 
-            local buffName, _, spellIcon = GetSpellInfo(buffID)
+            local _, _, spellIcon = GetSpellInfo(spellId)
 
             if not buffTitles[index] then
+               
                 local buffIcon = CreateFrame("Button", nil, rebuffPanel)
                 buffIcon:SetSize(24, 24)
                 buffIcon:SetPoint("TOPLEFT", labelBuffs, "TOPLEFT", 0, yOffset)
@@ -90,31 +70,29 @@ function createBuffSelection(x, y)
                 buffIcon.t:SetTexture(spellIcon)
                 buffIcon.t:SetAllPoints()
 
+    
                 local title = rebuffPanel:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
                 title:SetPoint("TOPLEFT", labelBuffs, 32, yOffset - 6)
-                title:SetText(buffName)
+                title:SetText(buff.name)
                 buffTitles[index] = title
             end
 
             if ("checkbuttons") then
-                local checkName = class .. "checkBox"
+                local checkName = name .. "checkBox"
                 local checkBox = CreateFrame("CheckButton", checkName, rebuffPanel, "InterfaceOptionsCheckButtonTemplate")
-                checkBox.tooltipText = class .. " > " .. buffName
+                checkBox.tooltipText = name .. " > " .. buff.name
                 checkBox:SetSize(24, 24)
                 checkBox:SetHitRectInsets(0, 0, 0, 0)
                 checkBox:SetPoint("TOPLEFT", labelClassBuff, "TOPLEFT", 0, yOffset)
-                checkBox:SetScript("OnClick", function() addon:storeRebuffBuffs(class) end)
-                checkBoxes[class][index] = checkBox
+                checkBox:SetScript("OnClick", function() addon:storeRebuffBuffs(name) end)
+                checkBoxes[name][index] = checkBox
 
-                -- Arcane Brilliance > 23028
-                -- Prayer of Spirit > 27681
-                -- Thorns (Rank 6) > 9910
-                if (class == "TANKS" and (buffID == 23028 or buffID == 27681)) or (class == "RAID" and (buffID == 9910)) then
-                    checkBoxes[class][index]:SetEnabled(false)
-                    checkBoxes[class][index]:SetAlpha(.35)
-                    checkBoxes[class][index]:SetChecked(false)
+                if (addon:hasNOTValue(buff.roles, name)) then
+                    checkBoxes[name][index]:SetEnabled(false)
+                    checkBoxes[name][index]:SetAlpha(.35)
+                    checkBoxes[name][index]:SetChecked(false)
                 else
-                    checkBoxes[class][index]:SetChecked(buffList[index] ~= nil)
+                    checkBoxes[name][index]:SetChecked(selectedBuffs[index] ~= nil)
                 end
 
             end
@@ -123,7 +101,7 @@ function createBuffSelection(x, y)
 end
 
 function createChannelDropdown(x, y)
-    channel = Rebuff:getSV("options", "channel")
+    options["channel"] = Rebuff:getSV("options", "channel")
 
     local labelChannelDropdown = rebuffPanel:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
     labelChannelDropdown:SetPoint("TOPLEFT", rebuffPanel, "BOTTOMLEFT", x, y)
@@ -136,12 +114,6 @@ function createChannelDropdown(x, y)
     sendChannelSelect:SetPoint("TOPLEFT", labelChannelDropdown, "TOPLEFT", -14, -24)
     sendChannelSelect:Show()
 
-    -- return dropdown selection
-    local function OnClick(self)
-        UIDropDownMenu_SetSelectedID(sendChannelSelect, self:GetID(), text, value)
-        channel = self.value
-    end
-
     -- dropdown box properties
     local function initialize(self, level)
         local info = UIDropDownMenu_CreateInfo()
@@ -151,7 +123,7 @@ function createChannelDropdown(x, y)
             info.value = chan
             info.func = function(self)
                 UIDropDownMenu_SetSelectedID(sendChannelSelect, self:GetID(), text, value)
-                channel = self.value
+                options["channel"] = self.value
             end
             UIDropDownMenu_AddButton(info, level)
         end
@@ -161,23 +133,23 @@ function createChannelDropdown(x, y)
     UIDropDownMenu_SetWidth(sendChannelSelect, 100)
     UIDropDownMenu_SetButtonWidth(sendChannelSelect, 100)
     UIDropDownMenu_JustifyText(sendChannelSelect, "LEFT")
-    UIDropDownMenu_SetSelectedName(sendChannelSelect, channel)
+    UIDropDownMenu_SetSelectedName(sendChannelSelect, options["channel"])
 
 end
 
-function createReadycheckCheckbox(x, y)
-    local checkReadyPrompt = CreateFrame("CheckButton", "checkReadyPrompt", rebuffPanel, "InterfaceOptionsCheckButtonTemplate")
-    local labelReadyPrompt = rebuffPanel:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
+function createCheckBox(name, pos, text, var)
+    local checkbox = CreateFrame("CheckButton", name, rebuffPanel, "InterfaceOptionsCheckButtonTemplate")
+    local label = rebuffPanel:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
 
-    labelReadyPrompt:SetPoint("TOPLEFT", checkReadyPrompt, "TOPLEFT", 32, -5)
-    labelReadyPrompt:SetJustifyH("LEFT")
-    labelReadyPrompt:SetText("Broadcast prompt after READYCHECK")
+    label:SetPoint("TOPLEFT", checkbox, "TOPLEFT", 32, -5)
+    label:SetJustifyH("LEFT")
+    label:SetText(text)
 
-    checkReadyPrompt:SetSize(24, 24)
-    checkReadyPrompt:SetHitRectInsets(0, 0, 0, 0)
-    checkReadyPrompt:SetPoint("TOPLEFT", rebuffPanel, "BOTTOMLEFT", x, y)
-    checkReadyPrompt:SetChecked(Rebuff:getSV("options", "readyCheck"))
-    checkReadyPrompt:SetScript("OnClick", function() readyCheck = checkReadyPrompt:GetChecked() end)
+    checkbox:SetSize(24, 24)
+    checkbox:SetHitRectInsets(0, 0, 0, 0)
+    checkbox:SetPoint("TOPLEFT", rebuffPanel, "BOTTOMLEFT", pos.x, pos.y)
+    checkbox:SetChecked(Rebuff:getSV("options", name))
+    checkbox:SetScript("OnClick", function() options[name] = checkbox:GetChecked() end)
 end
 
 ----------------------------
@@ -185,18 +157,18 @@ end
 ----------------------------
 function addon:storeRebuffBuffs(class)
     local storeBuffs = {}
-    for i, buff in pairs(buffIDs) do if checkBoxes[class][i]:GetChecked() then table.insert(storeBuffs, i, buff) end end
-    buffs[class] = storeBuffs
+    for i, buff in pairs(addon.buffs) do if checkBoxes[class][i]:GetChecked() then table.insert(storeBuffs, i, buff) end end
+    selectedBuffs[class] = storeBuffs
 end
 
 --------------------------------------------------
---- Save items when the Okay button is pressed ---
+--  Save items when the Okay button is pressed  --
 --------------------------------------------------
 rebuffPanel.okay = function(self)
-    for i, class in pairs(roles) do addon:storeRebuffBuffs(class) end
+    for i, role in pairs(addon.roles) do addon:storeRebuffBuffs(role.name) end
 
-    RebuffDB["buffs"] = buffs
-    RebuffDB["options"] = {channel = channel, readyCheck = readyCheck}
+    RebuffDB["buffs"] = selectedBuffs
+    RebuffDB["options"] = options
 end
 
 rebuffPanel:RegisterEvent("ADDON_LOADED")
