@@ -15,7 +15,7 @@ function addon:getRole(class, raidRole)
             if addon:hasValue(role.modifier, role) and addon:hasValue(role.classes, class) then
                 return role 
             end
-        elseif addon:hasValue(role.classes, class) then
+        elseif role.modifier == nil and addon:hasValue(role.classes, class) then
             return role 
         end 
     end
