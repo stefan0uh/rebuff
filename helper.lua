@@ -12,8 +12,7 @@ end
 function addon:hasNOTValue(tbl, val) return not addon:hasValue(tbl, val) end
 
 function addon:hasValue(tbl, val)
-    for index, value in ipairs(tbl) do
-         if value == val then return true end end
+    if (tbl ~= nil) then for index, value in ipairs(tbl) do if value == val then return true end end end
     return false
 end
 

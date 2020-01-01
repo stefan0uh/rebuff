@@ -12,4 +12,4 @@ Rebuff.lua
 config.lua
 helper.lua
 roles.lua
-ids.lua
+spells.lua

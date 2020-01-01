@@ -24,12 +24,7 @@ function addon:print()
         addon:sendtoChannel("-----------------------------", channel)
         for buff, players in addon:pairsByKeys(partyBuffs) do
             local str = buff .. " (" .. #players .. ")"
-            if (#players < 5) then
-                addon:sendtoChannel(str .. ": " .. addon:getPlayers(players), channel)
-            else
-                addon:sendtoChannel(str, channel)
-                addon:sendtoChannel(addon:getPlayers(players) .. " ...", channel)
-            end
+            addon:sendtoChannel(str .. ": " .. addon:getPlayers(players), channel)
         end
     else
         addon:sendtoChannel("-----------------------------", channel)
@@ -69,8 +64,7 @@ function addon:getMissingBuffs(player, role)
     local missingBuffs = {}
     local _, class = UnitClass(player)
     local playerRole = addon:getRole(class, role)
-
-    for index, buff in pairs(addon:getSV("buffs", playerRole.name)) do
+    for index, buff in pairs(addon:getSV("spells", playerRole.name)) do
         if addon:hasNOTValue(buff.roles, playerRole) then
             local buffSlotOnPlayer = 1
             local _, _, _, _, _, _, _, _, _, spellID = UnitBuff(player, buffSlotOnPlayer)
@@ -78,9 +72,7 @@ function addon:getMissingBuffs(player, role)
             table.insert(missingBuffs, buff)
 
             while spellID do
-                if (addon:hasValue(buff.ids, spellID)) then 
-                    table.remove(missingBuffs) 
-                end
+                if (addon:hasValue(buff.ids, spellID)) then table.remove(missingBuffs) end
                 buffSlotOnPlayer = buffSlotOnPlayer + 1
                 _, _, _, _, _, _, _, _, _, spellID = UnitBuff(player, buffSlotOnPlayer)
             end
@@ -100,7 +92,7 @@ end
 function addon:getPlayers(players)
     local str = ""
     for index, v in ipairs(players) do
-        if (string.len(str .. " ...") < 220) then
+        if (string.len(str .. " ...") < 200) then
             if (index < #players) then
                 str = str .. v .. ", "
             else
