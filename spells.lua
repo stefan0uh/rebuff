@@ -14,7 +14,7 @@ table.insert(addon.spells, {name = GetSpellInfo(27683), ids = {27683, 10958}, ro
 table.insert(addon.spells, {name = GetSpellInfo(27681), ids = {27681, 27841}, roles = {"CASTER"}}) --  Prayer of Spirit Divine Spirit
 table.insert(addon.spells, {name = GetSpellInfo(9910), ids = {9910}, roles = {"TANKS"}}) --  Thorns (Rank 6)
 
-if UnitFactionGroup("player") == "Horde" then
+if UnitFactionGroup("player") == "Alliance" then
     table.insert(addon.spells, {name = GetSpellInfo(25898), ids = {25898, 20217}, roles = {"TANKS", "MELEE", "CASTER"}}) --  Blessing of Kings, Greater Blessing of Kings
     table.insert(addon.spells, {name = GetSpellInfo(25916), ids = {25916, 25291}, roles = {"TANKS", "MELEE", "CASTER"}}) --  Blessing of Might, Greater Blessing of Might
     table.insert(addon.spells, {name = GetSpellInfo(25895), ids = {25895, 1038}, roles = {"TANKS", "MELEE", "CASTER"}}) --  Blessing of Salvation, Greater Blessing of Salvation
