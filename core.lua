@@ -4,40 +4,39 @@ local addonTitle = select(2, GetAddOnInfo(addonName))
 local A = LibStub("AceAddon-3.0"):NewAddon(addon, addonName, "AceConsole-3.0", "AceEvent-3.0")
 local L = LibStub("AceLocale-3.0"):GetLocale(addonName, true)
 
-addon.broadcastChannels = {"RAID", "PARTY", "SAY", "PRINT"}
-addon.spells = {"BUFFS", "CONSUMABLES"}
+addon.channels = {"RAID", "PARTY", "SAY", "PRINT"}
+addon.spells = {"buffs", "consumables"}
 
 local options = {
-    name = L["Rebuff Options"],
+    name = L["title"],
     descStyle = "inline",
     type = "group",
     childGroups = "tab",
     handler = addon,
     args = {
-        print = {order = 5, name = "Broadcast a report", type = "execute", confirm = false, width = "full", func = function() addon:print() end},
-        test = {order = 5, name = "TEST", type = "execute", confirm = false, width = "full", func = function() addon:test() end},
+        print = {order = 5, name = L["broadCastReport"], type = "execute", confirm = false, width = "full", func = function() addon:print() end},
         options = {
-            name = L["General"],
+            name = L["general"],
             type = "group",
             order = 1,
             args = {
-                broadcasting = {order = 1, name = L["Broadcasting"], type = "header", width = "full"},
+                broadcasting = {order = 1, name = L["channel"], type = "header", width = "full"},
                 channel = {
                     order = 2,
-                    name = L["Select broadcast channel"],
+                    name = L["selectChannel"],
+                    desc = L["channelDescription"],
                     type = "select",
-                    values = addon.broadcastChannels,
+                    values = addon.channels,
                     width = "full",
                     get = function() return addon.db.profile.options.channel end,
                     set = function(info, val) addon.db.profile.options.channel = val end
                 },
-                channelDesc = {order = 3, name = L["Print is only for you visible."], type = "description", width = "full"},
-                settings = {order = 4, name = L["Extra Stuff"], type = "header", width = "full"},
+                settings = {order = 3, name = L["generalExtra"], type = "header", width = "full"},
                 readyCheck = {
-                    order = 6,
-                    name = L["Readycheck prompt"],
+                    order = 5,
+                    name = L["readycheckPrompt"],
                     type = "toggle",
-                    desc = L["After a readycheck a prompt appears for sharing the report."],
+                    desc = L["readycheckPromptDescription"],
                     descStyle = "inline",
                     width = "full",
                     get = function() return addon.db.profile.options.readyCheck end,
@@ -46,90 +45,96 @@ local options = {
             }
         },
         [addon.spells[1]] = {
-            name = "Buffs",
+            name = L[addon.spells[1]],
             type = "group",
             order = 2,
             args = {
-                header = {order = 1, name = "Settings", type = "header"},
+                header = {order = 1, name = L["settings"], type = "header"},
                 active = {
                     order = 2,
-                    name = "Broadcast buffs",
+                    name = L["broadcast"] .. " " .. L[addon.spells[1]],
                     type = "toggle",
                     width = "full",
                     get = function() return addon.db.profile[addon.spells[1]].active end,
                     set = function(info, val) addon.db.profile[addon.spells[1]].active = val end
                 },
-                subHead = {order = 3, name = "Overview", type = "header"},
-                TANK = {
+                subHead = {order = 3, name = L["overview"], type = "header"},
+                tank = {
                     order = 4,
-                    name = function() return "Tanking " .. addon:getFormatedRoles("TANK") end,
+                    name = L["tank"],
+                    desc = function() return addon:getFormatedRoles("tank") end,
                     type = "multiselect",
                     disabled = function() return not addon.db.profile[addon.spells[1]].active end,
                     set = "setSpell",
                     get = "getSpell",
-                    values = function() return addon:getBuffsForSelection("TANK") end
+                    values = function() return addon:getBuffsForSelection("tank") end
                 },
-                PHYSICAL = {
-                    order = 5,
-                    name = function() return "PHYSICAL " .. addon:getFormatedRoles("PHYSICAL") end,
-                    type = "multiselect",
-                    disabled = function() return not addon.db.profile[addon.spells[1]].active end,
-                    set = "setSpell",
-                    get = "getSpell",
-                    values = function() return addon:getBuffsForSelection("PHYSICAL") end
-                },
-                CASTER = {
+                physical = {
                     order = 6,
-                    name = function() return "CASTER " .. addon:getFormatedRoles("CASTER") end,
+                    name = L["physical"],
+                    desc = function() return addon:getFormatedRoles("physical") end,
                     type = "multiselect",
                     disabled = function() return not addon.db.profile[addon.spells[1]].active end,
                     set = "setSpell",
                     get = "getSpell",
-                    values = function() return addon:getBuffsForSelection("CASTER") end
+                    values = function() return addon:getBuffsForSelection("physical") end
+                },
+                caster = {
+                    order = 8,
+                    name = L["caster"],
+                    desc = function() return addon:getFormatedRoles("caster") end,
+                    type = "multiselect",
+                    disabled = function() return not addon.db.profile[addon.spells[1]].active end,
+                    set = "setSpell",
+                    get = "getSpell",
+                    values = function() return addon:getBuffsForSelection("caster") end
                 }
             }
         },
         [addon.spells[2]] = {
-            name = "Consumables",
+            name = L[addon.spells[2]],
             type = "group",
-            order = 3,
+            order = 2,
             args = {
-                header = {order = 1, name = "Settings", type = "header"},
+                header = {order = 1, name = L["settings"], type = "header"},
                 active = {
                     order = 2,
-                    name = "Broadcast consumables",
+                    name = L["broadcast"] .. " " .. L[addon.spells[2]],
                     type = "toggle",
                     width = "full",
                     get = function() return addon.db.profile[addon.spells[2]].active end,
                     set = function(info, val) addon.db.profile[addon.spells[2]].active = val end
                 },
-                subHead = {order = 3, name = "Overview", type = "header"},
-                TANK = {
+                subHead = {order = 3, name = L["overview"], type = "header"},
+                tank = {
                     order = 4,
-                    name = function() return "Tanking " .. addon:getFormatedRoles("TANK") end,
+                    name = L["tank"],
+                    desc = function() return addon:getFormatedRoles("tank") end,
                     type = "multiselect",
                     disabled = function() return not addon.db.profile[addon.spells[2]].active end,
                     set = "setSpell",
                     get = "getSpell",
-                    values = function() return addon:getConsumablesForSelection("TANK") end
+                    values = function() return addon:getConsumablesForSelection("tank") end
                 },
-                PHYSICAL = {
-                    order = 5,
-                    name = function() return "PHYSICAL " .. addon:getFormatedRoles("PHYSICAL") end,
-                    type = "multiselect",
-                    disabled = function() return not addon.db.profile[addon.spells[2]].active end,
-                    set = "setSpell",
-                    get = "getSpell",
-                    values = function() return addon:getConsumablesForSelection("PHYSICAL") end
-                },
-                CASTER = {
+                physical = {
                     order = 6,
-                    name = function() return "CASTER " .. addon:getFormatedRoles("CASTER") end,
+                    name = L["physical"],
+                    desc = function() return addon:getFormatedRoles("physical") end,
                     type = "multiselect",
                     disabled = function() return not addon.db.profile[addon.spells[2]].active end,
                     set = "setSpell",
                     get = "getSpell",
-                    values = function() return addon:getConsumablesForSelection("CASTER") end
+                    values = function() return addon:getConsumablesForSelection("physical") end
+                },
+                caster = {
+                    order = 8,
+                    name = L["caster"],
+                    desc = function() return addon:getFormatedRoles("caster") end,
+                    type = "multiselect",
+                    disabled = function() return not addon.db.profile[addon.spells[2]].active end,
+                    set = "setSpell",
+                    get = "getSpell",
+                    values = function() return addon:getConsumablesForSelection("caster") end
                 }
             }
         }
@@ -144,8 +149,8 @@ function addon:OnInitialize()
     self.db = LibStub("AceDB-3.0"):New(addonName .. "DB", {
         profile = {
             options = {readyCheck = false, channel = 4},
-            [addon.spells[1]] = {active = false, TANK = {}, PHYSICAL = {}, CASTER = {}},
-            [addon.spells[2]] = {active = false, TANK = {}, PHYSICAL = {}, CASTER = {}}
+            [addon.spells[1]] = {active = false, tank = {}, physical = {}, caster = {}},
+            [addon.spells[2]] = {active = false, tank = {}, physical = {}, caster = {}}
         }
     })
 end

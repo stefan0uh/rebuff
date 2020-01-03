@@ -1,4 +1,5 @@
 local addonName, addon = ...
+local L = LibStub("AceLocale-3.0"):GetLocale(addonName, true)
 
 function addon:print()
     local channel = addon.broadcastChannels[addon.db.profile.options.channel]
@@ -15,7 +16,7 @@ function addon:print()
 
             if (buffs.count > 0) then
                 addon:sendToChannel("-----------------------------", channel)
-                addon:sendToChannel("Missing " .. v .. ":", channel)
+                addon:sendToChannel(L["missing"] .. " " .. v .. ":", channel)
                 addon:sendToChannel("-----------------------------", channel)
                 for spell, players in addon:pairsByKeys(buffs.missing) do
                     local str = spell .. " (" .. #players .. ")"
@@ -31,7 +32,7 @@ function addon:print()
     end
     if (buffed == active) then
         addon:sendToChannel("-----------------------------", channel)
-        addon:sendToChannel("All players are buffed, YEAH!", channel)
+        addon:sendToChannel(L["fullBuffed"], channel)
         addon:sendToChannel("-----------------------------", channel)
     end
 end

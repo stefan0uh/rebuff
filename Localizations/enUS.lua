@@ -2,22 +2,30 @@ local addonName, addon = ...
 local L = LibStub("AceLocale-3.0"):NewLocale(addonName, "enUS", true)
 
 if L then
+    L["title"] = "Rebuff Options"
+    L["broadCastReport"] = "Broadcast a report"
 
-L["Rebuff Options"] = true
+    L["general"] = "General"
+    L["channel"] = "Broadcasting channel"
+    L["selectChannel"] = "Select a broadcast channel"
+    L["channelDescription"] = "PRINT is only for you visible."
 
-L["General"] = true
-L["Broadcasting"] = true
-L["Select broadcast channel"] = true
-L["Print is only for you visible."] = true
+    L["generalExtra"] = "Extra stuff"
 
-L["Extra Stuff"] = true
+    L["readycheckPrompt"] = "Readycheck prompt"
+    L["readycheckPromptDescription"] = "After a readycheck a prompt appears for sharing the report."
 
-L["Readycheck prompt"] = true
-L["After a readycheck a prompt appears for sharing the report."] = true
+    L["buffs"] = "Buffs"
+    L["consumables"] = "Consumables"
 
+    L["settings"] = "Settings"
+    L["overview"] = "Overview"
+    L["broadcast"] = "Broadcast"
 
-L["Buffs"] = true
-L["Broadcast buffs"] = true
+    L["tank"] = "Tanking"
+    L["physical"] = "Physical"
+    L["caster"] = "Caster"
 
-L["Consumables"] = true
+    L["missing"] = "Missing"
+    L["fullBuffed"] = "All players are buffed, YEAH!"
 end
