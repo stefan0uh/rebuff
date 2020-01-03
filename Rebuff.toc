@@ -3,7 +3,7 @@
 ## Author: Toolate <The Dominion> - Nethergarde-Keep EU 
 ## X-License: MIT
 
-## Version: 0.15
+## Version: 1.1.0
 ## Interface: 13133
 
 ## SavedVariablesPerCharacter: RebuffDB
