@@ -8,17 +8,17 @@ function addon:print()
     local buffed = 0
 
     for i, v in ipairs(addon.spells) do
-        local buffs = {active = addon.db.profile[v].active, count = 0}
+        local spell = {active = addon.db.profile[v].active, count = 0}
 
-        if (buffs.active) then
-            buffs.missing = addon:groupCheck(v)
-            for _ in pairs(buffs.missing) do buffs.count = buffs.count + 1 end
+        if (spell.active) then
+            spell.missing = addon:groupCheck(v)
+            for _ in pairs(spell.missing) do spell.count = spell.count + 1 end
 
-            if (buffs.count > 0) then
+            if (spell.count > 0) then
                 addon:sendToChannel("-----------------------------", channel)
                 addon:sendToChannel(L["missing"] .. " " .. v .. ":", channel)
                 addon:sendToChannel("-----------------------------", channel)
-                for spell, players in addon:pairsByKeys(buffs.missing) do
+                for spell, players in addon:pairsByKeys(spell.missing) do
                     local str = spell .. " (" .. #players .. ")"
                     addon:sendToChannel(str .. ": " .. addon:getPlayers(players), channel)
                 end
@@ -28,12 +28,14 @@ function addon:print()
         else
             active = active - 1
         end
-
     end
-    if (buffed == active) then
+
+    if active == buffed and active > 0 then
         addon:sendToChannel("-----------------------------", channel)
         addon:sendToChannel(L["fullBuffed"], channel)
         addon:sendToChannel("-----------------------------", channel)
+    elseif (active == 0) then
+        print("|cFFFF0000" .. addonName .. " |r" .. L["nothingSelected"])
     end
 end
 

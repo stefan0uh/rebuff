@@ -13,7 +13,7 @@ table.insert(consumables, addon:newSpell("Food", {25661, 24799, 18191, 22730, 18
 
 -- ELIXIRS
 table.insert(consumables, addon:newSpell("Defense Elixirs", {25804, 11348, 11371, 11405, 3593}, {"tank", "physical"}, "GROUP")) -- tank
-table.insert(consumables, addon:newSpell("Physcial Elixirs", {17538, 16329, 16323, 17038}, {"tank", "physical"}, "GROUP")) -- physical 
+table.insert(consumables, addon:newSpell("Physical Elixirs", {17538, 16329, 16323, 17038}, {"tank", "physical"}, "GROUP")) -- physical 
 table.insert(consumables, addon:newSpell("Caster Elixirs", {11474, 17539, 21920, 7844, 24361, 24363, 17535}, {"caster"}, "GROUP")) -- caster (caster)
 
 -- DEFENSE
