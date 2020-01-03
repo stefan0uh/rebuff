@@ -1,18 +1,19 @@
 local addonName, addon = ...
+
 ------------------------
 ---      HELPER       ---
 -------------------------
 
-function addon:listvalues(s)
+function addon:listPrint(s)
     local t = {}
     for k, v in ipairs(s) do t[#t + 1] = tostring(v) end
-    return table.concat(t, ",")
+    return table.concat(t, ", ")
 end
 
 function addon:hasNOTValue(tbl, val) return not addon:hasValue(tbl, val) end
 
 function addon:hasValue(tbl, val)
-    if (tbl ~= nil) then for index, value in ipairs(tbl) do if value == val then return true end end end
+    if (tbl ~= nil) then for index, value in pairs(tbl) do if value == val then return true end end end
     return false
 end
 
@@ -33,4 +34,21 @@ function addon:pairsByKeys(t, f)
         end
     end
     return iter
+end
+
+
+function addon.KeyFromValue( tbl, val )
+	for key, value in pairs( tbl ) do
+		if ( value == val ) then return key end
+	end
+end
+
+function addon.RemoveByValue( tbl, val )
+
+	local key = table.KeyFromValue( tbl, val )
+	if key == nil then return false end
+
+	table.remove( tbl, key )
+	return key
+
 end

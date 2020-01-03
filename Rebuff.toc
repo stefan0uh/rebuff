@@ -1,15 +1,22 @@
-## Interface: 13133
-## Author: Toolate <The Dominion> - Nethergarde-Keep EU 
-## Version: 0.15
 ## Title: Rebuff
 ## Notes: Report for missing raid buffs
+## Author: Toolate <The Dominion> - Nethergarde-Keep EU 
+## X-License: MIT
+
+## Version: 0.15
+## Interface: 13133
+
 ## SavedVariablesPerCharacter: RebuffDB
-## OptionalDeps: 
 ## DefaultState: enabled
 
-embeds.xml
-Rebuff.lua
-config.lua
+Libs\embeds.xml
+Localizations\embeds.xml
+
+core.lua
 helper.lua
-roles.lua
-spells.lua
+
+Moduls/spell.lua
+
+Moduls/buffs.lua
+Moduls/consumables.lua
+Moduls/roles.lua
