@@ -17,8 +17,7 @@ function addon:groupCheck(spell)
             name, _, subgroup, _, _, _, _, online, isDead, role = GetRaidRosterInfo(groupIndex)
         end
         if online and name ~= nil then
-            local _, class = UnitClass(name) -- DEV CLASSNAME (English)
-            role = addon:getRole(class, role)
+            role = addon:getRole(name, role)
             local selectedBuffs = addon.db.profile[spell][role.name]
             local spells = addon:getSpells(spell, selectedBuffs)
             local playerMissing = addon:getMissingSpells(name, role, spells)

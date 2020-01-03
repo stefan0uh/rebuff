@@ -15,6 +15,7 @@ local options = {
     handler = addon,
     args = {
         print = {order = 5, name = "Broadcast a report", type = "execute", confirm = false, width = "full", func = function() addon:print() end},
+        test = {order = 5, name = "TEST", type = "execute", confirm = false, width = "full", func = function() addon:test() end},
         options = {
             name = L["General"],
             type = "group",
