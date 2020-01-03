@@ -43,18 +43,17 @@ function addon:test()
     if GetNumGroupMembers() == 0 then idx = 0 end -- 0 means no group
     -- Check each player in the group/raid
     for groupIndex = idx, GetNumGroupMembers(), 1 do
-        local subgroup, online, isDead, role
-
+        local online, role, class
         -- Check if solo (though not very useful outside of testing)
         if groupIndex == 0 then
             name = UnitName("player")
             online = true
+            _, class = UnitClass("player")
         else
-            name, _, subgroup, _, _, _, _, online, isDead, role = GetRaidRosterInfo(groupIndex)
+            name, _, _, _, _, class, _, online, _, role = GetRaidRosterInfo(groupIndex) --  DEV CLASSNAME (English)
         end
         if online and name ~= nil then
             role = addon:getRole(name, role)
-            local _, class = UnitClass(name) -- DEV CLASSNAME (English)
             print(name .. "(" .. class .. ")>>>" .. role.name)
         end
     end

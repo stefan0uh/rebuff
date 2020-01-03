@@ -15,6 +15,7 @@ local options = {
     handler = addon,
     args = {
         print = {order = 5, name = L["broadCastReport"], type = "execute", confirm = false, width = "full", func = function() addon:print() end},
+        -- test = {order = 5, name = "test", type = "execute", confirm = false, width = "full", func = function() addon:test() end},
         options = {
             name = L["general"],
             type = "group",
@@ -34,9 +35,9 @@ local options = {
                 settings = {order = 3, name = L["generalExtra"], type = "header", width = "full"},
                 readyCheck = {
                     order = 5,
-                    name = L["readycheckPrompt"],
+                    name = L["readycheckDialog"],
                     type = "toggle",
-                    desc = L["readycheckPromptDescription"],
+                    desc = L["readycheckDialogDescription"],
                     descStyle = "inline",
                     width = "full",
                     get = function() return addon.db.profile.options.readyCheck end,
@@ -168,6 +169,23 @@ function addon:setSpell(info, value)
 end
 
 ----------------------
+
+function addon:OnEnable() self:RegisterEvent("READY_CHECK") end
+
+function addon:READY_CHECK()
+    StaticPopupDialogs["REBUFF_PRINT"] = {
+        text = L["readycheckDialogText"],
+        button1 = L["yes"],
+        button2 = L["no"],
+        OnAccept = function() addon:print() end,
+        timeout = 0,
+        whileDead = true,
+        hideOnEscape = true,
+        preferredIndex = 3
+    }
+
+    if (addon.db.profile.options.readyCheck) then StaticPopup_Show("REBUFF_PRINT") end
+end
 
 function addon:OpenConfig()
     InterfaceOptionsFrame_OpenToCategory(addonTitle)

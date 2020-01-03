@@ -12,8 +12,11 @@ if L then
 
     L["generalExtra"] = "Extra stuff"
 
-    L["readycheckPrompt"] = "Readycheck prompt"
-    L["readycheckPromptDescription"] = "After a readycheck a prompt appears for sharing the report."
+    L["readycheckDialog"] = "Readycheck dialog"
+    L["readycheckDialogText"] = "Do you want to share a rebuff report?"
+    L["readycheckDialogDescription"] = "After a readycheck a dialog appears for sharing the report."
+    L["yes"] = "Yes"
+    L["no"] = "No"
 
     L["buffs"] = "Buffs"
     L["consumables"] = "Consumables"

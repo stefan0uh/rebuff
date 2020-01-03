@@ -2,7 +2,7 @@ local addonName, addon = ...
 local L = LibStub("AceLocale-3.0"):GetLocale(addonName, true)
 
 function addon:print()
-    local channel = addon.broadcastChannels[addon.db.profile.options.channel]
+    local channel = addon.channels[addon.db.profile.options.channel]
 
     local active = #addon.spells
     local buffed = 0
