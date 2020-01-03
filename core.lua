@@ -4,7 +4,8 @@ local addonTitle = select(2, GetAddOnInfo(addonName))
 local A = LibStub("AceAddon-3.0"):NewAddon(addon, addonName, "AceConsole-3.0", "AceEvent-3.0")
 local L = LibStub("AceLocale-3.0"):GetLocale(addonName, true)
 
-local broadcastChannels = {"RAID", "PARTY", "SAY", "PRINT"}
+addon.broadcastChannels = {"RAID", "PARTY", "SAY", "PRINT"}
+addon.spells = {"BUFFS", "CONSUMABLES"}
 
 local options = {
     name = L["Rebuff Options"],
@@ -13,7 +14,7 @@ local options = {
     childGroups = "tab",
     handler = addon,
     args = {
-        print = {order = 5, name = "Broadcast a report", type = "execute", confirm = false, width = "full", func = function() print(addon:test()) end},
+        print = {order = 5, name = "Broadcast a report", type = "execute", confirm = false, width = "full", func = function() addon:print() end},
         options = {
             name = L["General"],
             type = "group",
@@ -24,7 +25,7 @@ local options = {
                     order = 2,
                     name = L["Select broadcast channel"],
                     type = "select",
-                    values = broadcastChannels,
+                    values = addon.broadcastChannels,
                     width = "full",
                     get = function() return addon.db.profile.options.channel end,
                     set = function(info, val) addon.db.profile.options.channel = val end
@@ -43,7 +44,7 @@ local options = {
                 }
             }
         },
-        buffs = {
+        [addon.spells[1]] = {
             name = "Buffs",
             type = "group",
             order = 2,
@@ -54,40 +55,40 @@ local options = {
                     name = "Broadcast buffs",
                     type = "toggle",
                     width = "full",
-                    get = function() return addon.db.profile.buffs.active end,
-                    set = function(info, val) addon.db.profile.buffs.active = val end
+                    get = function() return addon.db.profile[addon.spells[1]].active end,
+                    set = function(info, val) addon.db.profile[addon.spells[1]].active = val end
                 },
                 subHead = {order = 3, name = "Overview", type = "header"},
                 TANK = {
                     order = 4,
                     name = function() return "Tanking " .. addon:getFormatedRoles("TANK") end,
                     type = "multiselect",
-                    disabled = function() return not addon.db.profile.buffs.active end,
+                    disabled = function() return not addon.db.profile[addon.spells[1]].active end,
                     set = "setSpell",
                     get = "getSpell",
-                    values = function() return addon:getBuffs("TANK") end
+                    values = function() return addon:getBuffsForSelection("TANK") end
                 },
                 MELEE = {
                     order = 5,
                     name = function() return "Melee " .. addon:getFormatedRoles("MELEE") end,
                     type = "multiselect",
-                    disabled = function() return not addon.db.profile.buffs.active end,
+                    disabled = function() return not addon.db.profile[addon.spells[1]].active end,
                     set = "setSpell",
                     get = "getSpell",
-                    values = function() return addon:getBuffs("MELEE") end
+                    values = function() return addon:getBuffsForSelection("MELEE") end
                 },
                 RANGE = {
                     order = 6,
                     name = function() return "Range " .. addon:getFormatedRoles("RANGE") end,
                     type = "multiselect",
-                    disabled = function() return not addon.db.profile.buffs.active end,
+                    disabled = function() return not addon.db.profile[addon.spells[1]].active end,
                     set = "setSpell",
                     get = "getSpell",
-                    values = function() return addon:getBuffs("RANGE") end
+                    values = function() return addon:getBuffsForSelection("RANGE") end
                 }
             }
         },
-        consumables = {
+        [addon.spells[2]] = {
             name = "Consumables",
             type = "group",
             order = 3,
@@ -98,36 +99,36 @@ local options = {
                     name = "Broadcast consumables",
                     type = "toggle",
                     width = "full",
-                    get = function() return addon.db.profile.consumables.active end,
-                    set = function(info, val) addon.db.profile.consumables.active = val end
+                    get = function() return addon.db.profile[addon.spells[2]].active end,
+                    set = function(info, val) addon.db.profile[addon.spells[2]].active = val end
                 },
                 subHead = {order = 3, name = "Overview", type = "header"},
                 TANK = {
                     order = 4,
                     name = function() return "Tanking " .. addon:getFormatedRoles("TANK") end,
                     type = "multiselect",
-                    disabled = function() return not addon.db.profile.consumables.active end,
+                    disabled = function() return not addon.db.profile[addon.spells[2]].active end,
                     set = "setSpell",
                     get = "getSpell",
-                    values = function() return addon:getConsumables("TANK") end
+                    values = function() return addon:getConsumablesForSelection("TANK") end
                 },
                 MELEE = {
                     order = 5,
                     name = function() return "Melee " .. addon:getFormatedRoles("MELEE") end,
                     type = "multiselect",
-                    disabled = function() return not addon.db.profile.consumables.active end,
+                    disabled = function() return not addon.db.profile[addon.spells[2]].active end,
                     set = "setSpell",
                     get = "getSpell",
-                    values = function() return addon:getConsumables("MELEE") end
+                    values = function() return addon:getConsumablesForSelection("MELEE") end
                 },
                 RANGE = {
                     order = 6,
                     name = function() return "Range " .. addon:getFormatedRoles("RANGE") end,
                     type = "multiselect",
-                    disabled = function() return not addon.db.profile.consumables.active end,
+                    disabled = function() return not addon.db.profile[addon.spells[2]].active end,
                     set = "setSpell",
                     get = "getSpell",
-                    values = function() return addon:getConsumables("RANGE") end
+                    values = function() return addon:getConsumablesForSelection("RANGE") end
                 }
             }
         }
@@ -142,8 +143,8 @@ function addon:OnInitialize()
     self.db = LibStub("AceDB-3.0"):New(addonName .. "DB", {
         profile = {
             options = {readyCheck = false, channel = 4},
-            buffs = {active = false, TANK = {}, MELEE = {}, RANGE = {}},
-            consumables = {active = false, TANK = {}, MELEE = {}, RANGE = {}}
+            [addon.spells[1]] = {active = false, TANK = {}, MELEE = {}, RANGE = {}},
+            [addon.spells[2]] = {active = false, TANK = {}, MELEE = {}, RANGE = {}}
         }
     })
 end

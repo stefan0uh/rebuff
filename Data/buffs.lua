@@ -22,9 +22,19 @@ if UnitFactionGroup("player") == "Alliance" then
     table.insert(buffs, addon:newSpell("SANCT", {25899, 20914}, {"TANK", "MELEE", "RANGE"})) --  Blessing of Sanctuary, Greater Blessing of Sanctuary
 end
 
-function addon:test() return buffs[1].localized end
+----------------------------
 
-function addon:getBuffs(role)
+function addon:getBuffsFromArray(arr)
+    local tmp = {}
+    for k, id in pairs(arr) do table.insert(tmp, addon:getBuffsById(id)) end
+    return tmp
+end
+
+function addon:getBuffsById(id) for k, v in pairs(buffs) do if (addon:hasValue(v.ids, id)) then return v end end end
+
+----------------------------
+
+function addon:getBuffsForSelection(role)
     local tmp = {}
     for k, v in pairs(buffs) do if (addon:hasValue(v.roles, role)) then tmp[v.ids[1]] = GetSpellInfo(v.ids[1]) end end
     return tmp

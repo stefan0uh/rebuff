@@ -13,10 +13,14 @@ Libs\embeds.xml
 Localizations\embeds.xml
 
 core.lua
-helper.lua
 
+
+Moduls/print.lua
+Moduls/scanner.lua
+
+Moduls/helper.lua
 Moduls/spell.lua
 
-Moduls/buffs.lua
-Moduls/consumables.lua
-Moduls/roles.lua
+Data/buffs.lua
+Data/consumables.lua
+Data/roles.lua

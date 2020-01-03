@@ -36,19 +36,14 @@ function addon:pairsByKeys(t, f)
     return iter
 end
 
+function addon.KeyFromValue(tbl, val) for key, value in pairs(tbl) do if (value == val) then return key end end end
 
-function addon.KeyFromValue( tbl, val )
-	for key, value in pairs( tbl ) do
-		if ( value == val ) then return key end
-	end
-end
+function addon.RemoveByValue(tbl, val)
 
-function addon.RemoveByValue( tbl, val )
+    local key = table.KeyFromValue(tbl, val)
+    if key == nil then return false end
 
-	local key = table.KeyFromValue( tbl, val )
-	if key == nil then return false end
-
-	table.remove( tbl, key )
-	return key
+    table.remove(tbl, key)
+    return key
 
 end
