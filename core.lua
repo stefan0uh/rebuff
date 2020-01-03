@@ -69,23 +69,23 @@ local options = {
                     get = "getSpell",
                     values = function() return addon:getBuffsForSelection("TANK") end
                 },
-                MELEE = {
+                PHYSICAL = {
                     order = 5,
-                    name = function() return "Melee " .. addon:getFormatedRoles("MELEE") end,
+                    name = function() return "PHYSICAL " .. addon:getFormatedRoles("PHYSICAL") end,
                     type = "multiselect",
                     disabled = function() return not addon.db.profile[addon.spells[1]].active end,
                     set = "setSpell",
                     get = "getSpell",
-                    values = function() return addon:getBuffsForSelection("MELEE") end
+                    values = function() return addon:getBuffsForSelection("PHYSICAL") end
                 },
-                RANGE = {
+                CASTER = {
                     order = 6,
-                    name = function() return "Range " .. addon:getFormatedRoles("RANGE") end,
+                    name = function() return "CASTER " .. addon:getFormatedRoles("CASTER") end,
                     type = "multiselect",
                     disabled = function() return not addon.db.profile[addon.spells[1]].active end,
                     set = "setSpell",
                     get = "getSpell",
-                    values = function() return addon:getBuffsForSelection("RANGE") end
+                    values = function() return addon:getBuffsForSelection("CASTER") end
                 }
             }
         },
@@ -113,23 +113,23 @@ local options = {
                     get = "getSpell",
                     values = function() return addon:getConsumablesForSelection("TANK") end
                 },
-                MELEE = {
+                PHYSICAL = {
                     order = 5,
-                    name = function() return "Melee " .. addon:getFormatedRoles("MELEE") end,
+                    name = function() return "PHYSICAL " .. addon:getFormatedRoles("PHYSICAL") end,
                     type = "multiselect",
                     disabled = function() return not addon.db.profile[addon.spells[2]].active end,
                     set = "setSpell",
                     get = "getSpell",
-                    values = function() return addon:getConsumablesForSelection("MELEE") end
+                    values = function() return addon:getConsumablesForSelection("PHYSICAL") end
                 },
-                RANGE = {
+                CASTER = {
                     order = 6,
-                    name = function() return "Range " .. addon:getFormatedRoles("RANGE") end,
+                    name = function() return "CASTER " .. addon:getFormatedRoles("CASTER") end,
                     type = "multiselect",
                     disabled = function() return not addon.db.profile[addon.spells[2]].active end,
                     set = "setSpell",
                     get = "getSpell",
-                    values = function() return addon:getConsumablesForSelection("RANGE") end
+                    values = function() return addon:getConsumablesForSelection("CASTER") end
                 }
             }
         }
@@ -144,8 +144,8 @@ function addon:OnInitialize()
     self.db = LibStub("AceDB-3.0"):New(addonName .. "DB", {
         profile = {
             options = {readyCheck = false, channel = 4},
-            [addon.spells[1]] = {active = false, TANK = {}, MELEE = {}, RANGE = {}},
-            [addon.spells[2]] = {active = false, TANK = {}, MELEE = {}, RANGE = {}}
+            [addon.spells[1]] = {active = false, TANK = {}, PHYSICAL = {}, CASTER = {}},
+            [addon.spells[2]] = {active = false, TANK = {}, PHYSICAL = {}, CASTER = {}}
         }
     })
 end

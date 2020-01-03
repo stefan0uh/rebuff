@@ -34,15 +34,15 @@ function addon:getMissingSpells(player, role, buffs)
     local missing = {}
     for index, buff in pairs(buffs) do
         if addon:hasNOTValue(buff.roles, role) then
-            local buffSlotOnPlayer = 1
-            local _, _, _, _, _, _, _, _, _, spellID = UnitBuff(player, buffSlotOnPlayer)
+            local buffSlot = 1
+            local _, _, _, _, _, _, _, _, _, spellID = UnitBuff(player, buffSlot)
             spellID = tonumber(spellID)
             table.insert(missing, buff)
 
             while spellID do
                 if (addon:hasValue(buff.ids, spellID)) then table.remove(missing) end
-                buffSlotOnPlayer = buffSlotOnPlayer + 1
-                _, _, _, _, _, _, _, _, _, spellID = UnitBuff(player, buffSlotOnPlayer)
+                buffSlot = buffSlot + 1
+                _, _, _, _, _, _, _, _, _, spellID = UnitBuff(player, buffSlot)
             end
         end
     end
