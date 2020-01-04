@@ -7,6 +7,15 @@ local L = LibStub("AceLocale-3.0"):GetLocale(addonName, true)
 addon.channels = {"RAID", "PARTY", "SAY", "PRINT"}
 addon.spells = {"buffs", "consumables"}
 
+
+local default = {
+    profile = {
+        options = {readyCheck = false, channel = 4},
+        [addon.spells[1]] = {active = false, tank = {}, physical = {}, caster = {}},
+        [addon.spells[2]] = {active = false, tank = {}, physical = {}, caster = {}}
+    }
+}
+
 local options = {
     name = L["title"],
     descStyle = "inline",
@@ -14,7 +23,7 @@ local options = {
     childGroups = "tab",
     handler = addon,
     args = {
-        print = {order = 5, name = L["broadCastReport"], type = "execute", confirm = false, width = "full", func = function() addon:print() end},
+        print = {order = 1, name = L["broadCastReport"], type = "execute", confirm = true, width = "full", func = function() addon:print() end},
         -- test = {order = 5, name = "test", type = "execute", confirm = false, width = "full", func = function() addon:test() end},
         options = {
             name = L["general"],
@@ -34,7 +43,7 @@ local options = {
                 },
                 settings = {order = 3, name = L["generalExtra"], type = "header", width = "full"},
                 readyCheck = {
-                    order = 5,
+                    order = 4,
                     name = L["readycheckDialog"],
                     type = "toggle",
                     desc = L["readycheckDialogDescription"],
@@ -42,7 +51,10 @@ local options = {
                     width = "full",
                     get = function() return addon.db.profile.options.readyCheck end,
                     set = function(info, val) addon.db.profile.options.readyCheck = val end
-                }
+                },
+                reset = {order = 5, name = L["reset"], type = "header", width = "full"},
+                resetOptions = {order = 6, name = L["resetOptions"], type = "execute", confirm = true, width = "full", func = function() addon.db:ResetProfile() end},
+
             }
         },
         [addon.spells[1]] = {
@@ -147,13 +159,7 @@ function addon:OnInitialize()
     LibStub("AceConfig-3.0"):RegisterOptionsTable(addonName, options, {"rb", "rebuff", "Rebuff"})
     LibStub("AceConfigDialog-3.0"):AddToBlizOptions(addonName, addonTitle)
 
-    self.db = LibStub("AceDB-3.0"):New(addonName .. "DB", {
-        profile = {
-            options = {readyCheck = false, channel = 4},
-            [addon.spells[1]] = {active = false, tank = {}, physical = {}, caster = {}},
-            [addon.spells[2]] = {active = false, tank = {}, physical = {}, caster = {}}
-        }
-    })
+    self.db = LibStub("AceDB-3.0"):New(addonName .. "DB", default)
 end
 
 function addon:getSpell(info, value) return Rebuff:hasValue(Rebuff.db.profile[info[1]][info[2]], value) end
@@ -167,6 +173,10 @@ function addon:setSpell(info, value)
     end
     Rebuff.db.profile[info[1]][info[2]] = t
 end
+
+-- function options.default() 
+--     addon.db = default
+-- end
 
 ----------------------
 

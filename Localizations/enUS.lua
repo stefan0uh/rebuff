@@ -18,6 +18,9 @@ if L then
     L["yes"] = "Yes"
     L["no"] = "No"
 
+    L["reset"] = "Reset"
+    L["resetOptions"] = "Reset options"
+
     L["buffs"] = "Buffs"
     L["consumables"] = "Consumables"
 
