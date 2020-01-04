@@ -32,4 +32,6 @@ if L then
     L["missing"] = "Missing"
     L["fullBuffed"] = "All players are buffed, YEAH!"
     L["nothingSelected"] = "Select something in the options to broadcast a report."
+
+    L["falseRole"] = "Players' role can be false."
 end

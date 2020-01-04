@@ -7,7 +7,7 @@ local consumables = {}
 ----------------------------
 
 -- GLOBAL
-table.insert(consumables, addon:newSpell("Flasks", {17626, 17627, 17628, 17629}, {"tank", "physical", "caster"}, "GROUP"))
+table.insert(consumables, addon:newSpell("Flask", {17626, 17627, 17628, 17629}, {"tank", "physical", "caster"}, "GROUP"))
 table.insert(consumables, addon:newSpell("Magic Protection Potion", {17543, 17549, 17544, 17546, 17548}, {"tank", "physical", "caster"}, "GROUP"))
 table.insert(consumables, addon:newSpell("Food", {25661, 24799, 18191, 22730, 18194, 18222, 18192, 18193, 19710, 25941}, {"tank", "physical", "caster"}, "GROUP"))
 

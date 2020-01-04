@@ -35,7 +35,7 @@ function addon:print()
         addon:sendToChannel(L["fullBuffed"], channel)
         addon:sendToChannel("-----------------------------", channel)
     elseif (active == 0) then
-        print("|cFFFF0000" .. addonName .. " |r" .. L["nothingSelected"])
+        addon:printError(addonName .. " |r" .. L["nothingSelected"])
     end
 end
 
@@ -59,4 +59,8 @@ function addon:getPlayers(players)
         end
     end
     return str
+end
+
+function addon:printError(text) 
+    print("|cFFFF0000" .. text)
 end
