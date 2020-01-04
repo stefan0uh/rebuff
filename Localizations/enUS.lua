@@ -33,5 +33,5 @@ if L then
     L["fullBuffed"] = "All players are buffed, YEAH!"
     L["nothingSelected"] = "Select something in the options to broadcast a report."
 
-    L["falseRole"] = "Players' role can be false."
+    L["falseRole"] = "player's role can be false."
 end
