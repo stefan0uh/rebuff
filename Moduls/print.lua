@@ -50,17 +50,17 @@ end
 function addon:getPlayers(players)
     local str = ""
     for index, v in ipairs(players) do
-        if (string.len(str .. " ...") < 200) then
-            if (index < #players) then
-                str = str .. v .. ", "
-            else
-                str = str .. v
-            end
+        if index < #players and string.len(str .. " ...") < 200 then
+            str = str .. v .. ", "
+        elseif string.len(str .. " ...") < 200 then
+            str = str .. v
         end
     end
-    return str
+    if (#players > 5) then
+        return str.. "..."
+    else
+        return str
+    end
 end
 
-function addon:printError(text) 
-    print("|cFFFF0000" .. text)
-end
+function addon:printError(text) print("|cFFFF0000" .. text) end
