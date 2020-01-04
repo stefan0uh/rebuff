@@ -4,7 +4,7 @@ local L = LibStub("AceLocale-3.0"):GetLocale(addonName, true)
 local roles = {}
 
 -- [0] MANA | [1] RAGE | [3] ENERGY 
-table.insert(roles, {name = "tank", power = {0, 1}, classes = {"DRUID", "WARRIOR", "WARLOCK"}, modifier = {"MAINTANK", "MAINASSIST"}})
+table.insert(roles, {name = "tank", power = {0, 1}, classes = {"DRUID", "WARRIOR", "WARLOCK"}, modifier = {"MAINTANK"}})
 table.insert(roles, {name = "physical", power = {0, 1, 3}, classes = {"DRUID", "HUNTER", "ROGUE", "WARRIOR", "SHAMAN"}})
 table.insert(roles, {name = "caster", power = {0}, classes = {"DRUID", "MAGE", "PALADIN", "PRIEST", "SHAMAN", "WARLOCK"}})
 
