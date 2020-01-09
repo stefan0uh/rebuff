@@ -32,7 +32,7 @@ function addon:print()
 
     if active == buffed and active > 0 then
         addon:sendToChannel("-----------------------------", channel)
-        addon:sendToChannel(L["fullBuffed"], channel)
+        addon:sendToChannel(addon.db.profile.options.fullBuffedMessage, channel)
         addon:sendToChannel("-----------------------------", channel)
     elseif (active == 0) then
         addon:printError(addonName .. " |r" .. L["nothingSelected"])
@@ -57,7 +57,7 @@ function addon:getPlayers(players)
         end
     end
     if (#players > 5) then
-        return str.. "..."
+        return str .. "..."
     else
         return str
     end

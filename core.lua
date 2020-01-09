@@ -7,10 +7,9 @@ local L = LibStub("AceLocale-3.0"):GetLocale(addonName, true)
 addon.channels = {"RAID", "PARTY", "SAY", "PRINT"}
 addon.spells = {"buffs", "consumables"}
 
-
 local default = {
     profile = {
-        options = {readyCheck = false, channel = 4},
+        options = {readyDialog = false, readyDirect = false, channel = 4, fullBuffedMessage = L["fullBuffedMessage"]},
         [addon.spells[1]] = {active = false, tank = {}, physical = {}, caster = {}},
         [addon.spells[2]] = {active = false, tank = {}, physical = {}, caster = {}}
     }
@@ -41,19 +40,42 @@ local options = {
                     get = function() return addon.db.profile.options.channel end,
                     set = function(info, val) addon.db.profile.options.channel = val end
                 },
-                settings = {order = 3, name = L["generalExtra"], type = "header", width = "full"},
-                readyCheck = {
+                readyCheckHeader = {order = 3, name = L["generalreadyCheck"], type = "header", width = "full"},
+                readyDialog = {
                     order = 4,
-                    name = L["readycheckDialog"],
+                    name = L["readyDialog"],
                     type = "toggle",
-                    desc = L["readycheckDialogDescription"],
+                    desc = L["readyDialogDescription"],
+                    descStyle = "inline",
+                    disabled = function() return addon.db.profile.options.readyDirect end,
+                    width = "full",
+                    get = function() return addon.db.profile.options.readyDialog end,
+                    set = function(info, val) addon.db.profile.options.readyDialog = val end
+                },
+                readyDirect = {
+                    order = 5,
+                    name = L["readyDirect"],
+                    type = "toggle",
+                    desc = L["readyDirectDescription"],
                     descStyle = "inline",
                     width = "full",
-                    get = function() return addon.db.profile.options.readyCheck end,
-                    set = function(info, val) addon.db.profile.options.readyCheck = val end
+                    disabled = function() return addon.db.profile.options.readyDialog end,
+                    get = function() return addon.db.profile.options.readyDirect end,
+                    set = function(info, val) addon.db.profile.options.readyDirect = val end
                 },
-                reset = {order = 5, name = L["reset"], type = "header", width = "full"},
-                resetOptions = {order = 6, name = L["resetOptions"], type = "execute", confirm = true, width = "full", func = function() addon.db:ResetProfile() end},
+                otherHeader = {order = 6, name = L["generalExtra"], type = "header", width = "full"},
+                fullBuffedMessage = {
+                    order = 7,
+                    name = L["fullBuffed"],
+                    type = "input",
+                    desc = L["fullBuffedDesc"],
+                    -- descStyle = "inline",
+                    width = "full",
+                    get = function() return addon.db.profile.options.fullBuffedMessage end,
+                    set = function(info, val) addon.db.profile.options.fullBuffedMessage = val end
+                },
+                reset = {order = 8, name = L["reset"], type = "header", width = "full"},
+                resetOptions = {order = 9, name = L["resetOptions"], type = "execute", confirm = true, width = "full", func = function() addon.db:ResetProfile() end}
 
             }
         },
@@ -184,7 +206,7 @@ function addon:OnEnable() self:RegisterEvent("READY_CHECK") end
 
 function addon:READY_CHECK()
     StaticPopupDialogs["REBUFF_PRINT"] = {
-        text = L["readycheckDialogText"],
+        text = L["readyDialogText"],
         button1 = L["yes"],
         button2 = L["no"],
         OnAccept = function() addon:print() end,
@@ -194,7 +216,8 @@ function addon:READY_CHECK()
         preferredIndex = 3
     }
 
-    if (addon.db.profile.options.readyCheck) then StaticPopup_Show("REBUFF_PRINT") end
+    if (addon.db.profile.options.readyDialog) then StaticPopup_Show("REBUFF_PRINT") end
+    if (addon.db.profile.options.readyDirect) then addon:print() end
 end
 
 function addon:OpenConfig()

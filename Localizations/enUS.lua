@@ -11,10 +11,15 @@ if L then
     L["channelDescription"] = "PRINT is only for you visible."
 
     L["generalExtra"] = "Extra stuff"
+    L["generalreadyCheck"] = "Readycheck stuff"
 
-    L["readycheckDialog"] = "Readycheck dialog"
-    L["readycheckDialogText"] = "Do you want to share a rebuff report?"
-    L["readycheckDialogDescription"] = "After a ready check, a dialog appears for sharing the report."
+    L["readyDialog"] = "Readycheck dialog"
+    L["readyDialogText"] = "Do you want to broadcast a rebuff report?"
+    L["readyDialogDescription"] = "Directly on a ready check, a dialog appears to broadcast the report."
+
+    L["readyDirect"] = "Readycheck direct broadcast"
+    L["readyDirectDescription"] = "Directly when the ready check appears, a report is broadcasted."
+
     L["yes"] = "Yes"
     L["no"] = "No"
 
@@ -33,7 +38,11 @@ if L then
     L["caster"] = "Caster"
 
     L["missing"] = "Missing"
-    L["fullBuffed"] = "All players are buffed, YEAH!"
+
+    L["fullBuffed"] = "Change the full buffed message"
+    L["fullBuffedMessage"] = "All players are buffed, YAY!"
+    L["fullBuffedDesc"] = "The message appears when there no missing buffs."
+
     L["nothingSelected"] = "Select something in the options to broadcast a report."
 
     L["falseRole"] = "player's role can be false."
