@@ -18,7 +18,7 @@ if UnitFactionGroup("player") == "Alliance" then
     table.insert(buffs, addon:newSpell("KINGS", {25898, 20217}, {"tank", "physical", "caster"})) --  Blessing of Kings, Greater Blessing of Kings
     table.insert(buffs, addon:newSpell("MIGHT", {25916, 25291}, {"tank", "physical", "caster"})) --  Blessing of Might, Greater Blessing of Might
     table.insert(buffs, addon:newSpell("SALVA", {25895, 1038}, {"physical", "caster"})) --  Blessing of Salvation, Greater Blessing of Salvation
-    table.insert(buffs, addon:newSpell("WISDO", {25918, 25290}, {"tank", "physical", "caster"})) --  Blessing of Wisdom, Greater Blessing of Wisdom
+    table.insert(buffs, addon:newSpell("WISDO", {25894, 19854}, {"tank", "physical", "caster"})) --  Blessing of Wisdom, Greater Blessing of Wisdom
     table.insert(buffs, addon:newSpell("SANCT", {25899, 20914}, {"tank", "physical", "caster"})) --  Blessing of Sanctuary, Greater Blessing of Sanctuary
 end
 
