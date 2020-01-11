@@ -1,5 +1,5 @@
 # Rebuff
-Check for missing Buffs or Consumables and share a report to your group.
+Check for missing buffs or consumables and broadcast them to your group.
 
 https://www.curseforge.com/wow/addons/rebuff
 
