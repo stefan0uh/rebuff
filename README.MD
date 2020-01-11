@@ -3,7 +3,7 @@ Check for missing Buffs or Consumables and share a report to your group.
 
 https://www.curseforge.com/wow/addons/rebuff
 
-## Options:
+### Options:
 * Select broadcast channel (RAID, PARTY, SAY)
 * Broadcast options for Buffs and Consumables
 * Readycheck dialog for broadcast (OPT-IN)
@@ -12,12 +12,12 @@ https://www.curseforge.com/wow/addons/rebuff
 
 ---
 
-### Separate selection for Tanking, Physical and Caster
+#### Separate selection for Tanking, Physical and Caster
   * **Tanking**: Druid, Warrior (set as MAINTANK in raid)
   * **Physical**: Druid, Hunter, Rogue, Warrior and Shaman (No caster buffs, like Intellect or Spirit)
   * **Caster**: Druid, Mage, Priest, Shaman/Paladin and Warlock
   
-### Consumable check for Flasks, Elixirs, Magic Protection Potion and Food
+#### Consumable check for Flasks, Elixirs, Magic Protection Potion and Food
 At the current state, it checks only one buff.
 (Example: Flask is selected, so it doesn't matter which flask the person has.)
 
@@ -29,7 +29,7 @@ At the current state, it checks only one buff.
 
 ---
 
-## Commands:
+### Commands:
 `/rebuff` or `/rb`
 * */rebuff* `print` (Broadcast a report)
 
