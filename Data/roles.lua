@@ -30,26 +30,7 @@ function addon:getRoleByName(role) for k, v in pairs(roles) do if (v.name == rol
 
 function addon:getFormatedRoles(role)
     local tmp = addon:getRoleByName(role)
-    return addon:listPrint(tmp.classes)
-end
-
-function addon:test()
-    local name, idx = "", 1
-    if GetNumGroupMembers() == 0 then idx = 0 end -- 0 means no group
-    -- Check each player in the group/raid
-    for groupIndex = idx, GetNumGroupMembers(), 1 do
-        local online, role, class
-        -- Check if solo (though not very useful outside of testing)
-        if groupIndex == 0 then
-            name = UnitName("player")
-            online = true
-            _, class = UnitClass("player")
-        else
-            name, _, _, _, _, class, _, online, _, role = GetRaidRosterInfo(groupIndex) --  DEV CLASSNAME (English)
-        end
-        if online and name ~= nil then
-            role = addon:getRole(name, role)
-            print(name .. "(" .. class .. ")>>>" .. role.name)
-        end
-    end
+    local t = {}
+    for k, v in ipairs(tmp.classes) do t[#t + 1] = tostring(v) end
+    return table.concat(t, ", ")
 end

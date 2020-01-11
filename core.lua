@@ -196,10 +196,6 @@ function addon:setSpell(info, value)
     Rebuff.db.profile[info[1]][info[2]] = t
 end
 
--- function options.default() 
---     addon.db = default
--- end
-
 ----------------------
 
 function addon:OnEnable() self:RegisterEvent("READY_CHECK") end

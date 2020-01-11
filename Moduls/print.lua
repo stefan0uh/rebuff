@@ -18,7 +18,7 @@ function addon:print()
                 addon:sendToChannel("-----------------------------", channel)
                 addon:sendToChannel(L["missing"] .. " " .. v .. ":", channel)
                 addon:sendToChannel("-----------------------------", channel)
-                for spell, players in addon:pairsByKeys(spell.missing) do
+                for spell, players in addon:sortByKey(spell.missing) do
                     local str = spell .. " (" .. #players .. ")"
                     addon:sendToChannel(str .. ": " .. addon:getPlayers(players), channel)
                 end

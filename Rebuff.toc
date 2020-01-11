@@ -3,7 +3,7 @@
 ## Author: Toolate <The Dominion> - Nethergarde-Keep EU 
 ## X-License: MIT
 
-## Version: 1.1.0
+## Version: 1.5.*
 ## Interface: 13133
 
 ## SavedVariablesPerCharacter: RebuffDB
@@ -13,7 +13,6 @@ Libs\embeds.xml
 Localizations\embeds.xml
 
 core.lua
-
 
 Moduls/print.lua
 Moduls/scanner.lua
