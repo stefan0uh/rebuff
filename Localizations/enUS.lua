@@ -28,6 +28,7 @@ if L then
 
     L["buffs"] = "Buffs"
     L["consumables"] = "Consumables"
+    L["worldbuffs"] = "World Buffs"
 
     L["settings"] = "Settings"
     L["overview"] = "Overview"

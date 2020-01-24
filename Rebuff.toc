@@ -1,6 +1,6 @@
 ## Title: Rebuff
 ## Notes: Report for missing raid buffs
-## Author: Toolate <The Dominion> - Nethergarde-Keep EU 
+## Author: Toolate <The Dominion> - Nethergarde-Keep EU
 ## X-License: MIT
 
 ## Version: 1.5.*
@@ -12,14 +12,18 @@
 Libs\embeds.xml
 Localizations\embeds.xml
 
+# Moduls and Helper
+Moduls\helper.lua
+Moduls\options.lua
+Moduls\spell.lua
+Moduls\scanner.lua
+Moduls\print.lua
+
+# Spell IDs and more
+Data\roles.lua
+Data\buffs.lua
+Data\consumables.lua
+Data\worldbuffs.lua
+
+# Core Element
 core.lua
-
-Moduls/print.lua
-Moduls/scanner.lua
-
-Moduls/helper.lua
-Moduls/spell.lua
-
-Data/buffs.lua
-Data/consumables.lua
-Data/roles.lua

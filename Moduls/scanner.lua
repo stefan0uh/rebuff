@@ -18,7 +18,7 @@ function addon:groupCheck(spell)
         if online and name ~= nil then
             role = addon:getRole(name, role)
             local selectedBuffs = addon.db.profile[spell][role.name]
-            local spells = addon:getSpells(spell, selectedBuffs)
+            local spells = addon:getSpellsFromArray(addon[spell], selectedBuffs)
             local playerMissing = addon:getMissingSpells(name, role, spells)
             for index, buff in pairs(playerMissing) do
                 if missingBuffs[buff.name] == nil then missingBuffs[buff.name] = {} end
@@ -46,13 +46,5 @@ function addon:getMissingSpells(player, role, buffs)
         end
     end
     return missing
-end
-
-function addon:getSpells(spell, selectedBuffs)
-    if (spell == addon.spells[1]) then
-        return addon:getBuffsFromArray(selectedBuffs)
-    else
-        return addon:getConsumablesFromArray(selectedBuffs)
-    end
 end
 
