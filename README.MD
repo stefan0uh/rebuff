@@ -5,7 +5,7 @@ https://www.curseforge.com/wow/addons/rebuff
 
 ### Options:
 * Select broadcast channel (RAID, PARTY, SAY)
-* Broadcast options for Buffs and Consumables
+* Broadcast options for Buffs and Consumables or World Buffs
 * Readycheck dialog for broadcast (OPT-IN)
 * Direct broadcast on readycheck (OPT-IN)
 * Custom message when full buffed
