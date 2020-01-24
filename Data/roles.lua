@@ -22,7 +22,7 @@ function addon:getRole(name, modifier)
         end
         if (addon:hasValue(role.classes, class)) then nothing = role end
     end
-    addon:printError(name .. "|r " .. L["falseRole"] .. " (" .. nothing.name .. ")")
+    addon:printError(name .. "|r " .. L["ERROR_FALSEROLE_LABEL"] .. " (" .. nothing.name .. ")")
     return nothing
 end
 
