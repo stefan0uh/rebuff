@@ -1,8 +1,8 @@
 local addonName, addon = ...
 local L = LibStub("AceLocale-3.0"):GetLocale(addonName, true)
 
-addon.channels = {"RAID", "PARTY", "SAY", "PRINT"}
-addon.spells = {"buffs", "consumables", "worldbuffs"}
+addon.channels = { "RAID", "PARTY", "SAY", "PRINT" }
+addon.spells = { "buffs", "consumables", "worldbuffs" }
 
 function addon:menuEntry(arr)
     return {
@@ -10,7 +10,7 @@ function addon:menuEntry(arr)
         type = "group",
         order = 2,
         args = {
-            header = {order = 1, name = L["settings"], type = "header"},
+            head = { order = 1, name = L["settings"], type = "header" },
             active = {
                 order = 2,
                 name = L["broadcast"] .. " " .. L[arr],
@@ -19,7 +19,7 @@ function addon:menuEntry(arr)
                 get = function() return addon.db.profile[arr].active end,
                 set = function(info, val) addon.db.profile[arr].active = val end
             },
-            subHead = {order = 3, name = L["overview"], type = "header"},
+            subHead = { order = 3, name = L["overview"], type = "header" },
             tank = {
                 order = 4,
                 name = L["tank"],
@@ -56,10 +56,10 @@ end
 
 addon.default = {
     profile = {
-        options = {readyDialog = false, readyDirect = false, channel = 4, fullBuffedMessage = L["fullBuffedMessage"]},
-        [addon.spells[1]] = {active = false, tank = {}, physical = {}, caster = {}},
-        [addon.spells[2]] = {active = false, tank = {}, physical = {}, caster = {}},
-        [addon.spells[3]] = {active = false, tank = {}, physical = {}, caster = {}}
+        options = { readyDialog = false, readyDirect = false, channel = 4, fullBuffedMessage = L["fullBuffedMessage"] },
+        [addon.spells[1]] = { active = false, tank = {}, physical = {}, caster = {} },
+        [addon.spells[2]] = { active = false, tank = {}, physical = {}, caster = {} },
+        [addon.spells[3]] = { active = false, tank = {}, physical = {}, caster = {} }
     }
 }
 
@@ -70,14 +70,13 @@ addon.options = {
     childGroups = "tab",
     handler = addon,
     args = {
-        print = {order = 1, name = L["broadCastReport"], type = "execute", confirm = true, width = "full", func = function() addon:print() end},
-        -- test = {order = 5, name = "test", type = "execute", confirm = false, width = "full", func = function() addon:test() end},
+        print = { order = 1, name = L["broadCastReport"], type = "execute", confirm = true, width = "full", func = function() addon:print() end },
         options = {
             name = L["general"],
             type = "group",
             order = 1,
             args = {
-                broadcasting = {order = 1, name = L["channel"], type = "header", width = "full"},
+                head_1 = { order = 1, name = L["channel"], type = "header", width = "full" },
                 channel = {
                     order = 2,
                     name = L["selectChannel"],
@@ -88,7 +87,7 @@ addon.options = {
                     get = function() return addon.db.profile.options.channel end,
                     set = function(info, val) addon.db.profile.options.channel = val end
                 },
-                readyCheckHeader = {order = 3, name = L["generalreadyCheck"], type = "header", width = "full"},
+                head_2 = { order = 3, name = L["generalreadyCheck"], type = "header", width = "full" },
                 readyDialog = {
                     order = 4,
                     name = L["readyDialog"],
@@ -98,7 +97,7 @@ addon.options = {
                     disabled = function() return addon.db.profile.options.readyDirect end,
                     width = "full",
                     get = function() return addon.db.profile.options.readyDialog end,
-                    set = function(info, val) addon.db.profile.options.readyDialog = val end
+                    set = function(_, val) addon.db.profile.options.readyDialog = val end
                 },
                 readyDirect = {
                     order = 5,
@@ -109,9 +108,9 @@ addon.options = {
                     width = "full",
                     disabled = function() return addon.db.profile.options.readyDialog end,
                     get = function() return addon.db.profile.options.readyDirect end,
-                    set = function(info, val) addon.db.profile.options.readyDirect = val end
+                    set = function(_, val) addon.db.profile.options.readyDirect = val end
                 },
-                otherHeader = {order = 6, name = L["generalExtra"], type = "header", width = "full"},
+                head_3 = { order = 6, name = L["generalExtra"], type = "header", width = "full" },
                 fullBuffedMessage = {
                     order = 7,
                     name = L["fullBuffed"],
@@ -120,11 +119,10 @@ addon.options = {
                     -- descStyle = "inline",
                     width = "full",
                     get = function() return addon.db.profile.options.fullBuffedMessage end,
-                    set = function(info, val) addon.db.profile.options.fullBuffedMessage = val end
+                    set = function(_, val) addon.db.profile.options.fullBuffedMessage = val end
                 },
-                reset = {order = 8, name = L["reset"], type = "header", width = "full"},
-                resetOptions = {order = 9, name = L["resetOptions"], type = "execute", confirm = true, width = "full", func = function() addon.db:ResetProfile() end}
-
+                head_3 = { order = 8, name = L["reset"], type = "header", width = "full" },
+                reset = { order = 9, name = L["resetOptions"], type = "execute", confirm = true, width = "full", func = function() addon.db:ResetProfile() end }
             }
         },
         [addon.spells[1]] = addon:menuEntry(addon.spells[1]),
@@ -144,3 +142,4 @@ function addon:setSpell(info, value)
     end
     Rebuff.db.profile[info[1]][info[2]] = t
 end
+

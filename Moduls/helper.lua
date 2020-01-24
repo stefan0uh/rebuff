@@ -1,7 +1,7 @@
 local addonName, addon = ...
 
 ------------------------
----      Table       ---
+--- Table       ---
 -------------------------
 function addon:sortByKey(t, f)
     local a = {}

@@ -17,8 +17,6 @@ end
 
 ----------------------
 
---function addon:OnEnable() self:RegisterEvent("READY_CHECK") end
-
 function addon:READY_CHECK()
     StaticPopupDialogs["REBUFF_PRINT"] = {
         text = L["readyDialogText"],
@@ -33,12 +31,6 @@ function addon:READY_CHECK()
 
     if (addon.db.profile.options.readyDialog) then StaticPopup_Show("REBUFF_PRINT") end
     if (addon.db.profile.options.readyDirect) then addon:print() end
-end
-
-function addon:OpenConfig()
-    InterfaceOptionsFrame_OpenToCategory(addonTitle)
-    -- need to call it a second time as there is a bug where the first time it won't switch !BlizzBugsSuck has a fix
-    InterfaceOptionsFrame_OpenToCategory(addonTitle)
 end
 
 _G[addonName] = addon

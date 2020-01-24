@@ -8,7 +8,7 @@ function addon:print()
     local buffed = 0
 
     for i, v in ipairs(addon.spells) do
-        local spell = {active = addon.db.profile[v].active, count = 0}
+        local spell = { active = addon.db.profile[v].active, count = 0 }
 
         if (spell.active) then
             spell.missing = addon:groupCheck(v)
