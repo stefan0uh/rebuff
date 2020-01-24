@@ -4,8 +4,6 @@ local addonTitle = select(2, GetAddOnInfo(addonName))
 local A = LibStub("AceAddon-3.0"):NewAddon(addon, addonName, "AceConsole-3.0", "AceEvent-3.0")
 local L = LibStub("AceLocale-3.0"):GetLocale(addonName, true)
 
-
-
 function addon:OnInitialize()
     LibStub("AceConfig-3.0"):RegisterOptionsTable(addonName, addon.options, {"rb", "rebuff", "Rebuff"})
     LibStub("AceConfigDialog-3.0"):AddToBlizOptions(addonName, addonTitle)
@@ -19,9 +17,9 @@ end
 
 function addon:READY_CHECK()
     StaticPopupDialogs["REBUFF_PRINT"] = {
-        text = L["readyDialogText"],
-        button1 = L["yes"],
-        button2 = L["no"],
+        text = L["READYCHECK_DIALOG_MESSAGE"],
+        button1 = L["YES"],
+        button2 = L["NO"],
         OnAccept = function() addon:print() end,
         timeout = 0,
         whileDead = true,

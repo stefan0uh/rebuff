@@ -2,49 +2,70 @@ local addonName, addon = ...
 local L = LibStub("AceLocale-3.0"):NewLocale(addonName, "enUS", true)
 
 if L then
-    L["title"] = "Rebuff Options"
-    L["broadCastReport"] = "Broadcast a report"
+    L["TITLE"] = "Rebuff Options"
+    L["ADDON_DESCRIPTION"] = "Rebuff Options"
 
-    L["general"] = "General"
-    L["channel"] = "Broadcasting channel"
-    L["selectChannel"] = "Select a broadcast channel"
-    L["channelDescription"] = "PRINT is only for you visible."
+    L["BROADCAST_ACTION"] = "Broadcast a report"
+    L["SPACER_HEADLINE"] = "Settings & more"
 
-    L["generalExtra"] = "Extra stuff"
-    L["generalreadyCheck"] = "Readycheck stuff"
+    ----------------------------
 
-    L["readyDialog"] = "Readycheck dialog"
-    L["readyDialogText"] = "Do you want to broadcast a rebuff report?"
-    L["readyDialogDescription"] = "Directly on a ready check, a dialog appears to broadcast the report."
+    L["GENERAL_TAB"] = "General"
+    L["CHANNEL_HEADLINE"] = "Broadcasting channel"
+    L["CHANNEL_SELECT_LABEL"] = "Select a broadcast channel"
+    L["CHANNEL_DESCRIPTION"] = "PRINT is only for you visible."
 
-    L["readyDirect"] = "Readycheck direct broadcast"
-    L["readyDirectDescription"] = "Directly when the ready check appears, a report is broadcasted."
+    ----------------------------
 
-    L["yes"] = "Yes"
-    L["no"] = "No"
+    L["READYCHECK_HEADLINE"] = "Readycheck"
+    L["READYCHECK_DIALOG_LABEL"] = "Readycheck dialog"
+    L["READYCHECK_DIALOG_DESCRIPTION"] = "Directly on a ready check, a dialog appears to broadcast the report."
+    L["READYCHECK_DIALOG_MESSAGE"] = "Do you want to broadcast a rebuff report?"
 
-    L["reset"] = "Reset"
-    L["resetOptions"] = "Reset options"
+    L["READYCHECK_DIRECT_LABEL"] = "Readycheck direct broadcast"
+    L["READYCHECK_DIRECT_DESCRIPTION"] = "Directly when the ready check appears, a report is broadcasted."
+
+    ----------------------------
+
+    L["FULLBUFFED_LABEL"] = "Change the full buffed message"
+    L["FULLBUFFED_DESCRIPTION"] = "The message appears when there no missing buffs."
+    L["FULLBUFFED_MESSAGE"] = "All players are buffed, YAY!"
+
+    ----------------------------
+
+    L["EXTRA_HEADLINE"] = "Extra stuff"
+    L["EXTRA_DESCRIPTION"] = "some small extra :D"
+
+    L["CHECK_HEADLINE"] = "Full HARDCORE check"
+    L["CHECK_LABEL"] = "Perform a full consumable check"
+    L["CHECK_DESCRIPTION"] = "If you select this, players need all selected consumables instead of one."
+
+    ----------------------------
+
+    L["RESET"] = "Reset"
+    L["RESET_OPTIONS"] = "Reset options"
+
+    L["YES"] = "Yes"
+    L["NO"] = "No"
+
+    ----------------------------
+
+    L["SPELL_SETTING_HEADLINE"] = "Settings"
+    L["SPELL_OVERVIEW_HEADLINE"] = "Overview"
+    L["SPELL_BROADCAST_LABEL"] = "Broadcast"
 
     L["buffs"] = "Buffs"
     L["consumables"] = "Consumables"
     L["worldbuffs"] = "World Buffs"
 
-    L["settings"] = "Settings"
-    L["overview"] = "Overview"
-    L["broadcast"] = "Broadcast"
+    L["ROLE_TANK"] = "Tanking"
+    L["ROLE_PHYSICAL"] = "Physical"
+    L["ROLE_CASTER"] = "Caster"
 
-    L["tank"] = "Tanking"
-    L["physical"] = "Physical"
-    L["caster"] = "Caster"
+    ----------------------------
 
-    L["missing"] = "Missing"
+    L["MISSING_PRINT_LABEL"] = "Missing"
 
-    L["fullBuffed"] = "Change the full buffed message"
-    L["fullBuffedMessage"] = "All players are buffed, YAY!"
-    L["fullBuffedDesc"] = "The message appears when there no missing buffs."
-
-    L["nothingSelected"] = "Select something in the options to broadcast a report."
-
-    L["falseRole"] = "player's role can be false."
+    L["ERROR_NOTHINGSELECTED_LABEL"] = "Select something in the options to broadcast a report."
+    L["ERROR_FALSEROLE_LABEL"] = "player's role can be false."
 end

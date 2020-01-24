@@ -8,21 +8,21 @@ function addon:menuEntry(arr)
     return {
         name = L[arr],
         type = "group",
-        order = 2,
+        order = 100,
         args = {
-            head = { order = 1, name = L["settings"], type = "header" },
+            head = { order = 10, name = L["SPELL_SETTING_HEADLINE"], type = "header" },
             active = {
-                order = 2,
-                name = L["broadcast"] .. " " .. L[arr],
+                order = 11,
+                name = L["SPELL_BROADCAST_LABEL"] .. " " .. L[arr],
                 type = "toggle",
                 width = "full",
                 get = function() return addon.db.profile[arr].active end,
-                set = function(info, val) addon.db.profile[arr].active = val end
+                set = function(_, val) addon.db.profile[arr].active = val end
             },
-            subHead = { order = 3, name = L["overview"], type = "header" },
+            subHead = { order = 20, name = L["SPELL_OVERVIEW_HEADLINE"], type = "header" },
             tank = {
-                order = 4,
-                name = L["tank"],
+                order = 21,
+                name = L["ROLE_TANK"],
                 desc = function() return addon:getFormatedRoles("tank") end,
                 type = "multiselect",
                 disabled = function() return not addon.db.profile[arr].active end,
@@ -31,8 +31,8 @@ function addon:menuEntry(arr)
                 values = function() return addon:getSpellsForSelection(addon[arr], "tank") end
             },
             physical = {
-                order = 6,
-                name = L["physical"],
+                order = 22,
+                name = L["ROLE_PHYSICAL"],
                 desc = function() return addon:getFormatedRoles("physical") end,
                 type = "multiselect",
                 disabled = function() return not addon.db.profile[arr].active end,
@@ -41,8 +41,8 @@ function addon:menuEntry(arr)
                 values = function() return addon:getSpellsForSelection(addon[arr], "physical") end
             },
             caster = {
-                order = 8,
-                name = L["caster"],
+                order = 23,
+                name = L["ROLE_CASTER"],
                 desc = function() return addon:getFormatedRoles("caster") end,
                 type = "multiselect",
                 disabled = function() return not addon.db.profile[arr].active end,
@@ -56,7 +56,7 @@ end
 
 addon.default = {
     profile = {
-        options = { readyDialog = false, readyDirect = false, channel = 4, fullBuffedMessage = L["fullBuffedMessage"] },
+        options = { readyDialog = false, readyDirect = false, channel = 4, fullBuffedMessage = L["FULLBUFFED_MESSAGE"] },
         [addon.spells[1]] = { active = false, tank = {}, physical = {}, caster = {} },
         [addon.spells[2]] = { active = false, tank = {}, physical = {}, caster = {} },
         [addon.spells[3]] = { active = false, tank = {}, physical = {}, caster = {} }
@@ -64,35 +64,37 @@ addon.default = {
 }
 
 addon.options = {
-    name = L["title"],
+    name = L["TITLE"],
     descStyle = "inline",
     type = "group",
     childGroups = "tab",
     handler = addon,
     args = {
-        print = { order = 1, name = L["broadCastReport"], type = "execute", confirm = true, width = "full", func = function() addon:print() end },
+        desc = { order = 10, name = "", type = "description", width = 2.5 },
+        print = { order = 12, name = L["BROADCAST_ACTION"], type = "execute", confirm = true, width = 1, func = function() addon:print() end },
         options = {
-            name = L["general"],
+            name = L["GENERAL_TAB"],
             type = "group",
-            order = 1,
+            order = 20,
             args = {
-                head_1 = { order = 1, name = L["channel"], type = "header", width = "full" },
+                head_1 = { order = 10, name = L["CHANNEL_HEADLINE"], type = "header", width = "full" },
                 channel = {
-                    order = 2,
-                    name = L["selectChannel"],
-                    desc = L["channelDescription"],
+                    order = 11,
+                    name = L["CHANNEL_SELECT_LABEL"],
+                    desc = L["CHANNEL_DESCRIPTION"],
                     type = "select",
                     values = addon.channels,
                     width = "full",
                     get = function() return addon.db.profile.options.channel end,
-                    set = function(info, val) addon.db.profile.options.channel = val end
+                    set = function(_, val) addon.db.profile.options.channel = val end
                 },
-                head_2 = { order = 3, name = L["generalreadyCheck"], type = "header", width = "full" },
+                desc_1 = { order = 12, name = L["CHANNEL_DESCRIPTION"], type = "description", width = "full" },
+                head_2 = { order = 20, name = L["READYCHECK_HEADLINE"], type = "header", width = "full" },
                 readyDialog = {
-                    order = 4,
-                    name = L["readyDialog"],
+                    order = 21,
+                    name = L["READYCHECK_DIALOG_LABEL"],
                     type = "toggle",
-                    desc = L["readyDialogDescription"],
+                    desc = L["READYCHECK_DIALOG_DESCRIPTION"],
                     descStyle = "inline",
                     disabled = function() return addon.db.profile.options.readyDirect end,
                     width = "full",
@@ -100,29 +102,30 @@ addon.options = {
                     set = function(_, val) addon.db.profile.options.readyDialog = val end
                 },
                 readyDirect = {
-                    order = 5,
-                    name = L["readyDirect"],
+                    order = 22,
+                    name = L["READYCHECK_DIRECT_LABEL"],
                     type = "toggle",
-                    desc = L["readyDirectDescription"],
+                    desc = L["READYCHECK_DIRECT_DESCRIPTION"],
                     descStyle = "inline",
                     width = "full",
                     disabled = function() return addon.db.profile.options.readyDialog end,
                     get = function() return addon.db.profile.options.readyDirect end,
                     set = function(_, val) addon.db.profile.options.readyDirect = val end
                 },
-                head_3 = { order = 6, name = L["generalExtra"], type = "header", width = "full" },
+                head_3 = { order = 30, name = L["EXTRA_HEADLINE"], type = "header", width = "full" },
                 fullBuffedMessage = {
-                    order = 7,
-                    name = L["fullBuffed"],
+                    order = 32,
+                    name = L["FULLBUFFED_LABEL"],
                     type = "input",
-                    desc = L["fullBuffedDesc"],
+                    desc = L["FULLBUFFED_DESCRIPTION"],
                     -- descStyle = "inline",
                     width = "full",
                     get = function() return addon.db.profile.options.fullBuffedMessage end,
                     set = function(_, val) addon.db.profile.options.fullBuffedMessage = val end
                 },
-                head_3 = { order = 8, name = L["reset"], type = "header", width = "full" },
-                reset = { order = 9, name = L["resetOptions"], type = "execute", confirm = true, width = "full", func = function() addon.db:ResetProfile() end }
+
+                head_5 = { order = 50, name = L["RESET"], type = "header", width = "full" },
+                reset = { order = 51, name = L["RESET_OPTIONS"], type = "execute", confirm = true, width = "full", func = function() addon.db:ResetProfile() end }
             }
         },
         [addon.spells[1]] = addon:menuEntry(addon.spells[1]),

@@ -7,7 +7,7 @@ function addon:print()
     local active = #addon.spells
     local buffed = 0
 
-    for i, v in ipairs(addon.spells) do
+    for _, v in ipairs(addon.spells) do
         local spell = { active = addon.db.profile[v].active, count = 0 }
 
         if (spell.active) then
@@ -16,7 +16,7 @@ function addon:print()
 
             if (spell.count > 0) then
                 addon:sendToChannel("-----------------------------", channel)
-                addon:sendToChannel(L["missing"] .. " " .. v .. ":", channel)
+                addon:sendToChannel(L["MISSING_PRINT_LABEL"] .. " " .. v .. ":", channel)
                 addon:sendToChannel("-----------------------------", channel)
                 for spell, players in addon:sortByKey(spell.missing) do
                     local str = spell .. " (" .. #players .. ")"
@@ -35,7 +35,7 @@ function addon:print()
         addon:sendToChannel(addon.db.profile.options.fullBuffedMessage, channel)
         addon:sendToChannel("-----------------------------", channel)
     elseif (active == 0) then
-        addon:printError(addonName .. " |r" .. L["nothingSelected"])
+        addon:printError(addonName .. " |r" .. L["ERROR_NOTHINGSELECTED_LABEL"])
     end
 end
 
