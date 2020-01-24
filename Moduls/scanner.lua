@@ -1,4 +1,4 @@
-local addonName, addon = ...
+local _, addon = ...
 
 function addon:groupCheck(spell)
     local name, idx, online, role = "", 1, nil, nil
@@ -15,9 +15,9 @@ function addon:groupCheck(spell)
             name, _, _, _, _, _, _, online, _, role = GetRaidRosterInfo(groupIndex) --  DEV CLASSNAME (English)
         end
         if online and name ~= nil then
-            role = addon:getRole(name, role)
+            role = addon.roles:get(name, role)
             local selectedBuffs = addon.db.profile[spell][role.name]
-            local spells = addon:getSpellsFromArray(addon[spell], selectedBuffs)
+            local spells = addon.spell:fromArray(addon[spell], selectedBuffs)
             local playerMissing = addon:getMissingSpells(name, role, spells)
             for _, buff in pairs(playerMissing) do
                 if missingBuffs[buff.name] == nil then missingBuffs[buff.name] = {} end

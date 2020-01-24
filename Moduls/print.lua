@@ -15,12 +15,12 @@ function addon:print()
             for _ in pairs(spell.missing) do spell.count = spell.count + 1 end
 
             if (spell.count > 0) then
-                addon:sendToChannel("-----------------------------", channel)
-                addon:sendToChannel(L["MISSING_PRINT_LABEL"] .. " " .. v .. ":", channel)
-                addon:sendToChannel("-----------------------------", channel)
+                sendToChannel("-----------------------------", channel)
+                sendToChannel(L["MISSING_PRINT_LABEL"] .. " " .. v .. ":", channel)
+                sendToChannel("-----------------------------", channel)
                 for spell, players in addon:sortByKey(spell.missing) do
                     local str = spell .. " (" .. #players .. ")"
-                    addon:sendToChannel(str .. ": " .. addon:getPlayers(players), channel)
+                    sendToChannel(str .. ": " .. formatPlayers(players), channel)
                 end
             else
                 buffed = buffed + 1
@@ -31,15 +31,15 @@ function addon:print()
     end
 
     if active == buffed and active > 0 then
-        addon:sendToChannel("-----------------------------", channel)
-        addon:sendToChannel(addon.db.profile.options.fullBuffedMessage, channel)
-        addon:sendToChannel("-----------------------------", channel)
+        sendToChannel("-----------------------------", channel)
+        sendToChannel(addon.db.profile.options.fullBuffedMessage, channel)
+        sendToChannel("-----------------------------", channel)
     elseif (active == 0) then
-        addon:printError(addonName .. " |r" .. L["ERROR_NOTHINGSELECTED_LABEL"])
+        printError(addonName .. " |r" .. L["ERROR_NOTHINGSELECTED_LABEL"])
     end
 end
 
-function addon:sendToChannel(text, channel)
+function sendToChannel(text, channel)
     if (string.match(channel, "PRINT")) then
         print(text)
     else
@@ -47,7 +47,7 @@ function addon:sendToChannel(text, channel)
     end
 end
 
-function addon:getPlayers(players)
+function formatPlayers(players)
     local str = ""
     for index, v in ipairs(players) do
         if index < #players and string.len(str .. " ...") < 200 then
@@ -63,4 +63,4 @@ function addon:getPlayers(players)
     end
 end
 
-function addon:printError(text) print("|cFFFF0000" .. text) end
+function printError(text) print("|cFFFF0000" .. text) end

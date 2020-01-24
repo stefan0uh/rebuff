@@ -1,56 +1,51 @@
-local addonName, addon = ...
-
+local _, addon = ...
 addon.spell = {}
-addon.__index = spell
+
+local Spell = addon.spell
+Spell.__index = Spell
 
 -------------------------------
--- name - String or ItemID (if GROUP, ITEM or BUFF)
--- ids - Table with spell ids to check
+-- name     - String/Int: if GROUP, ITEM or BUFF
+-- ids      - Table: spell ids
+-- roles    - Table: roles
+-- def      - String: Definition.
 -------------------------------
-function addon:new_Spell(name, ids, roles, def)
-    local sp = {}
-    setmetatable(sp, spell)
-    sp.name = name
-    sp.ids = ids
-    sp.roles = roles
-    sp.def = def
-    return sp
+function Spell.new(name, ids, roles, def)
+    local self = setmetatable({}, Spell)
+    self.name = name
+    self.ids = ids
+    self.roles = roles
+    self.def = def
+    return self
 end
 
 ----------------------------
 
-function addon:new_Group(name, ids, roles) return addon:new_Spell(name, ids, roles, "GROUP") end
+function addon:createGroup(name, ids, roles) return Spell.new(name, Spell:remap(ids), roles, "GROUP") end
 
-function addon:new_Consum(item, ids, roles) return addon:new_Spell(GetItemInfo(item), ids, roles, "CONSUM") end
+function addon:addConsumable(item, ids, roles) return Spell.new(GetItemInfo(item), ids, roles, "CONSUM") end
 
-function addon:new_Buff(ids, roles) return addon:new_Spell(GetSpellInfo(ids[1]), ids, roles, "BUFF") end
+function addon:addBuff(ids, roles) return Spell.new(GetSpellInfo(ids[1]), ids, roles, "BUFF") end
 
 ----------------------------
-
-function addon:spell_Remap(t)
+function Spell:remap(arr)
     local tmp = {}
-    for _, x in pairs(t) do table.insert(tmp, x.ids[1]) end
+    for _, x in ipairs(arr) do table.insert(tmp, x.ids[1]) end
     return tmp
 end
 
 ----------------------------
+function Spell:byId(spells, id) for _, v in pairs(spells) do if (addon:hasValue(v.ids, id)) then return v end end end
 
-function addon:getSpellsFromArray(spells, arr)
+function Spell:fromArray(spells, arr)
     local tmp = {}
-    for _, id in pairs(arr) do table.insert(tmp, addon:getSpellById(spells, id)) end
+    for _, id in pairs(arr) do table.insert(tmp, Spell:byId(spells, id)) end
     return tmp
 end
 
-function addon:getSpellById(spells, id) for k, v in pairs(spells) do if (addon:hasValue(v.ids, id)) then return v end end end
-
 ----------------------------
-
-function addon:getSpellsForSelection(spells, role)
+function Spell:forSelection(spells, role)
     local tmp = {}
-    for _, v in pairs(spells) do
-        if (addon:hasValue(v.roles, role)) then
-            tmp[v.ids[1]] = v.name
-        end
-    end
+    for _, v in pairs(spells) do if (addon:hasValue(v.roles, role)) then tmp[v.ids[1]] = v.name end end
     return tmp
 end

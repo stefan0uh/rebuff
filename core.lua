@@ -5,10 +5,10 @@ local A = LibStub("AceAddon-3.0"):NewAddon(addon, addonName, "AceConsole-3.0", "
 local L = LibStub("AceLocale-3.0"):GetLocale(addonName, true)
 
 function addon:OnInitialize()
-    LibStub("AceConfig-3.0"):RegisterOptionsTable(addonName, addon.options, {"rb", "rebuff", "Rebuff"})
+    LibStub("AceConfig-3.0"):RegisterOptionsTable(addonName, self.options, { "rb", "rebuff", "Rebuff" })
     LibStub("AceConfigDialog-3.0"):AddToBlizOptions(addonName, addonTitle)
-    self.db = LibStub("AceDB-3.0"):New(addonName .. "DB", addon.default)
 
+    self.db = LibStub("AceDB-3.0"):New(addonName .. "DB", self.default)
     -- Events
     self:RegisterEvent("READY_CHECK")
 end

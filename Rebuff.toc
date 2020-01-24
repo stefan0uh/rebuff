@@ -12,18 +12,21 @@
 Libs\embeds.xml
 Localizations\embeds.xml
 
-# Moduls and Helper
-Moduls\helper.lua
-Moduls\options.lua
+# Spell wrapper
 Moduls\spell.lua
-Moduls\scanner.lua
-Moduls\print.lua
 
 # Spell IDs and more
 Data\roles.lua
 Data\buffs.lua
 Data\consumables.lua
 Data\worldbuffs.lua
+
+# Moduls and Helper
+Moduls\helper.lua
+Moduls\options.lua
+Moduls\scanner.lua
+Moduls\print.lua
+
 
 # Core Element
 core.lua
