@@ -1,10 +1,13 @@
 local _, addon = ...
-addon.spell = {}
 
+addon.spell = {}
 local Spell = addon.spell
 Spell.__index = Spell
 
 -------------------------------
+
+-- Create a new Spell/Item
+
 -- name     - String/Int: if GROUP, ITEM or BUFF
 -- ids      - Table: spell ids
 -- roles    - Table: roles
@@ -35,7 +38,7 @@ function Spell:remap(arr)
 end
 
 ----------------------------
-function Spell:byId(spells, id) for _, v in pairs(spells) do if (addon:hasValue(v.ids, id)) then return v end end end
+function Spell:byId(spells, id) for _, v in pairs(spells) do if (table.includes(v.ids, id)) then return v end end end
 
 function Spell:fromArray(spells, arr)
     local tmp = {}
@@ -46,6 +49,6 @@ end
 ----------------------------
 function Spell:forSelection(spells, role)
     local tmp = {}
-    for _, v in pairs(spells) do if (addon:hasValue(v.roles, role)) then tmp[v.ids[1]] = v.name end end
+    for _, v in pairs(spells) do if (table.includes(v.roles, role)) then tmp[v.ids[1]] = v.name end end
     return tmp
 end

@@ -29,7 +29,7 @@ if L then
 
     L["FULLBUFFED_LABEL"] = "Change the full buffed message"
     L["FULLBUFFED_DESCRIPTION"] = "The message appears when there no missing buffs."
-    L["FULLBUFFED_MESSAGE"] = "All players are buffed, YAY!"
+    L["FULLBUFFED_MESSAGE"] = "All players are buffed!"
 
     ----------------------------
 

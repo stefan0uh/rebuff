@@ -1,6 +1,14 @@
 local _, addon = ...
 
-function addon:groupCheck(spell)
+addon.check = {}
+local check = addon.check
+
+----------------------------
+
+-- Missing buff checking
+----------------------------
+
+function check:groupMissing(spell)
     local name, idx, online, role = "", 1, nil, nil
     local missingBuffs = {}
 
@@ -18,8 +26,8 @@ function addon:groupCheck(spell)
             role = addon.roles:get(name, role)
             local selectedBuffs = addon.db.profile[spell][role.name]
             local spells = addon.spell:fromArray(addon[spell], selectedBuffs)
-            local playerMissing = addon:getMissingSpells(name, role, spells)
-            for _, buff in pairs(playerMissing) do
+            local playerMissingBuffs = getMissingBuffs(name, role, spells)
+            for _, buff in pairs(playerMissingBuffs) do
                 if missingBuffs[buff.name] == nil then missingBuffs[buff.name] = {} end
                 table.insert(missingBuffs[buff.name], name)
             end
@@ -28,17 +36,17 @@ function addon:groupCheck(spell)
     return missingBuffs
 end
 
-function addon:getMissingSpells(player, role, buffs)
+function getMissingBuffs(player, role, buffs)
     local missing = {}
     for _, buff in pairs(buffs) do
-        if addon:hasNOTValue(buff.roles, role) then
+        if not table.includes(buff.roles, role) then
             local buffSlot = 1
             local _, _, _, _, _, _, _, _, _, spellID = UnitBuff(player, buffSlot)
             spellID = tonumber(spellID)
             table.insert(missing, buff)
 
             while spellID do
-                if (addon:hasValue(buff.ids, spellID)) then table.remove(missing) end
+                if (table.includes(buff.ids, spellID)) then table.remove(missing) end
                 buffSlot = buffSlot + 1
                 _, _, _, _, _, _, _, _, _, spellID = UnitBuff(player, buffSlot)
             end
@@ -46,4 +54,3 @@ function addon:getMissingSpells(player, role, buffs)
     end
     return missing
 end
-

@@ -9,11 +9,12 @@
 ## SavedVariablesPerCharacter: RebuffDB
 ## DefaultState: enabled
 
-Libs\embeds.xml
+Libraries\embeds.xml
 Localizations\embeds.xml
 
-# Spell wrapper
+# Spell wrapper and Helper
 Moduls\spell.lua
+Moduls\helper.lua
 
 # Spell IDs and more
 Data\roles.lua
@@ -21,12 +22,10 @@ Data\buffs.lua
 Data\consumables.lua
 Data\worldbuffs.lua
 
-# Moduls and Helper
-Moduls\helper.lua
+# Moduls
+Moduls\broadcast.lua
+Moduls\check.lua
 Moduls\options.lua
-Moduls\scanner.lua
-Moduls\print.lua
-
 
 # Core Element
 core.lua

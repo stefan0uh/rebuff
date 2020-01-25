@@ -1,9 +1,17 @@
 local addonName, addon = ...
 local L = LibStub("AceLocale-3.0"):GetLocale(addonName, true)
 
-function addon:print()
-    local channel = addon.channels[addon.db.profile.options.channel]
+addon.broadcast = {}
+local broadcast = addon.broadcast
 
+----------------------------
+
+-- Broadcasting
+----------------------------
+
+function broadcast:send()
+    local channel = addon.channels[addon.db.profile.options.channel]
+    local spacerAmount = #addon.db.profile.options.fullBuffedMessage + (#addon.db.profile.options.fullBuffedMessage / 3 )
     local active = #addon.spells
     local buffed = 0
 
@@ -11,16 +19,17 @@ function addon:print()
         local spell = { active = addon.db.profile[v].active, count = 0 }
 
         if (spell.active) then
-            spell.missing = addon:groupCheck(v)
+            spell.missing = addon.check:groupMissing(v)
             for _ in pairs(spell.missing) do spell.count = spell.count + 1 end
 
             if (spell.count > 0) then
-                sendToChannel("-----------------------------", channel)
-                sendToChannel(L["MISSING_PRINT_LABEL"] .. " " .. v .. ":", channel)
-                sendToChannel("-----------------------------", channel)
-                for spell, players in addon:sortByKey(spell.missing) do
+
+                toChannel(getSpacer(spacerAmount), channel)
+                toChannel(L["MISSING_PRINT_LABEL"] .. " " .. v .. ":", channel)
+                toChannel(getSpacer(spacerAmount), channel)
+                for spell, players in table.sortyByKey(spell.missing) do
                     local str = spell .. " (" .. #players .. ")"
-                    sendToChannel(str .. ": " .. formatPlayers(players), channel)
+                    toChannel(str .. ": " .. formatPlayers(players), channel)
                 end
             else
                 buffed = buffed + 1
@@ -31,21 +40,25 @@ function addon:print()
     end
 
     if active == buffed and active > 0 then
-        sendToChannel("-----------------------------", channel)
-        sendToChannel(addon.db.profile.options.fullBuffedMessage, channel)
-        sendToChannel("-----------------------------", channel)
+        toChannel(getSpacer(spacerAmount), channel)
+        toChannel(addon.db.profile.options.fullBuffedMessage, channel)
+        toChannel(getSpacer(spacerAmount), channel)
     elseif (active == 0) then
-        printError(addonName .. " |r" .. L["ERROR_NOTHINGSELECTED_LABEL"])
+        addon:printError(addonName .. " |r" .. L["ERROR_NOTHINGSELECTED_LABEL"])
     end
 end
 
-function sendToChannel(text, channel)
+----------------------------
+
+function toChannel(text, channel)
     if (string.match(channel, "PRINT")) then
         print(text)
     else
         if (text ~= nil) then SendChatMessage(text, channel) end
     end
 end
+
+----------------------------
 
 function formatPlayers(players)
     local str = ""
@@ -63,4 +76,10 @@ function formatPlayers(players)
     end
 end
 
-function printError(text) print("|cFFFF0000" .. text) end
+function getSpacer(amount)
+    local str = ""
+    for _ = 0, amount, 1 do
+        str = str .. "-"
+    end
+    return str
+end

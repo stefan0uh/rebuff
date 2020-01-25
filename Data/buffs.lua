@@ -2,8 +2,10 @@ local _, addon = ...
 
 addon.buffs = {}
 local buffs = addon.buffs
+
 ----------------------------
--- BUFFS         --
+
+-- BUFFS
 ----------------------------
 
 -- Mage

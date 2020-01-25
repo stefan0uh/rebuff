@@ -1,5 +1,11 @@
 local addonName, addon = ...
+local options = {}
 local L = LibStub("AceLocale-3.0"):GetLocale(addonName, true)
+
+----------------------------
+
+-- Options
+----------------------------
 
 addon.channels = { "RAID", "PARTY", "SAY", "PRINT" }
 addon.spells = { "buffs", "consumables", "worldbuffs" }
@@ -78,10 +84,10 @@ function optionsEntry()
         descStyle = "inline",
         type = "group",
         childGroups = "tab",
-        handler = addon,
+        handler = options,
         args = {
             desc = { order = 10, name = "", type = "description", width = 2.5 },
-            print = { order = 11, name = L["BROADCAST_ACTION"], type = "execute", confirm = true, width = 1, func = function() addon:print() end },
+            print = { order = 11, name = L["BROADCAST_ACTION"], type = "execute", confirm = true, width = 1, func = function() addon.broadcast:send() end },
             spacer = { order = 12, name = "", type = "header", width = "full" },
             options = {
                 name = L["GENERAL_TAB"],
@@ -155,14 +161,14 @@ addon.options = optionsEntry()
 
 ----------------------------
 
-function addon:getSpell(info, value) return addon:hasValue(addon.db.profile[info[1]][info[2]], value) end
+function options:getSpell(info, value) return table.includes(addon.db.profile[info[1]][info[2]], value) end
 
-function addon:setSpell(info, value)
+function options:setSpell(info, value)
     local t = addon.db.profile[info[1]][info[2]]
-    if (addon:hasNOTValue(t, value)) then
+    if not table.includes(t, value) then
         table.insert(t, value)
     else
-        table.remove(t, addon.KeyFromValue(t, value))
+        table.remove(t, table.getKeyFromValue(t, value))
     end
     addon.db.profile[info[1]][info[2]] = t
 end

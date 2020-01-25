@@ -2,9 +2,12 @@ local _, addon = ...
 
 addon.consumables = {}
 local buffs = addon.consumables
+
 ----------------------------
--- CONSUMABLES      --
+
+-- CONSUMABLES
 ----------------------------
+
 local full_roles = { "tank", "physical", "caster" }
 
 -- Food id's

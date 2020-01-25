@@ -2,8 +2,10 @@ local _, addon = ...
 
 addon.worldbuffs = {}
 local buffs = addon.worldbuffs
+
 ----------------------------
--- WORLD BUFFS       --
+
+-- World buffs
 ----------------------------
 
 -- Rend Buff

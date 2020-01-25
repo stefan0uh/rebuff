@@ -1,9 +1,17 @@
 local _, addon = ...
 
+----------------------------
+
+-- Addon helper functions
+----------------------------
+
+function addon:printError(text) print("|cFFFF0000" .. text) end
+
 ------------------------
---- Table       ---
+
+--- Table enhancements
 -------------------------
-function addon:sortByKey(t, f)
+function table.sortyByKey(t, f)
     local a = {}
     for n in pairs(t) do table.insert(a, n) end
     table.sort(a, f)
@@ -19,11 +27,9 @@ function addon:sortByKey(t, f)
     return iter
 end
 
-function addon:hasNOTValue(tbl, val) return not addon:hasValue(tbl, val) end
-
-function addon:hasValue(tbl, val)
+function table.includes(tbl, val)
     if (tbl ~= nil) then for _, value in pairs(tbl) do if value == val then return true end end end
     return false
 end
 
-function addon.KeyFromValue(tbl, val) for key, value in pairs(tbl) do if (value == val) then return key end end end
+function table.getKeyFromValue(tbl, val) for key, value in pairs(tbl) do if (value == val) then return key end end end
