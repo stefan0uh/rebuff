@@ -1,11 +1,17 @@
-local _, addon = ...
+local addonName, addon = ...
 
 ----------------------------
 
 -- Addon helper functions
 ----------------------------
 
-function addon:printError(text) print("|cFFFF0000" .. text) end
+function addon:printError(text, prefix)
+    if(prefix) then
+        print("|cFFFF0000" .. prefix .. " | |r" .. text)
+    else
+        print("|cFFFF0000" .. text)
+    end
+end
 
 ------------------------
 

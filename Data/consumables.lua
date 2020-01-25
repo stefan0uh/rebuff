@@ -12,15 +12,15 @@ local full_roles = { "tank", "physical", "caster" }
 
 -- Food id's
 local food = {}
-table.insert(food, addon:addConsumable(21023, { 25661 }, { "tank" })) -- Increased Stamina (25)
-table.insert(food, addon:addConsumable(13927, { 18191 }, { "tank" })) -- Increased Stamina (10)
-table.insert(food, addon:addConsumable(13932, { 18222 }, { "tank" })) -- Health Regeneration 6hp/5
-table.insert(food, addon:addConsumable(20452, { 24799 }, { "physical" })) -- Well Fed (20 Strength)
-table.insert(food, addon:addConsumable(13928, { 18192 }, { "physical" })) -- Increased Agility (10)
-table.insert(food, addon:addConsumable(18254, { 22730 }, { "caster" })) -- Increased Intellect (10)
-table.insert(food, addon:addConsumable(13929, { 18193 }, { "caster" })) -- Increased Spirit (10)
-table.insert(food, addon:addConsumable(12218, { 19710 }, { "tank", "caster" })) -- Well Fed (12 Stamina & Spirit)
-table.insert(food, addon:addConsumable(21217, { 25941 }, { "caster" })) -- Well Fed (6mp/5)
+table.insert(food, addon:addConsumable(21023, { 25661 }, { "tank" })) -- Increased Stamina (25) - Dirge's Kickin' Chimaerok Chops
+table.insert(food, addon:addConsumable(13927, { 18191 }, { "tank" })) -- Increased Stamina (10) - Cooked Glossy Mightfish
+table.insert(food, addon:addConsumable(13932, { 18222 }, { "tank" })) -- Health Regeneration 6hp/5 - Poached Sunscale Salmon
+table.insert(food, addon:addConsumable(20452, { 24799 }, { "physical" })) -- Well Fed (20 Strength) - Smoked Desert Dumplings
+table.insert(food, addon:addConsumable(13928, { 18192 }, { "physical" })) -- Increased Agility (10) - Grilled Squid
+table.insert(food, addon:addConsumable(18254, { 22730 }, { "caster" })) -- Increased Intellect (10) - Runn Tum Tuber Surprise
+table.insert(food, addon:addConsumable(13929, { 18193 }, { "caster" })) -- Increased Spirit (10) - Hot Smoked Bass
+table.insert(food, addon:addConsumable(12218, { 19710 }, { "tank", "caster" })) -- Well Fed (12 Stamina & Spirit) - Monster Omelet
+table.insert(food, addon:addConsumable(21217, { 25941 }, { "caster" })) -- Well Fed (6mp/5) - Sagefish Delight
 table.insert(buffs, addon:createGroup("Food", food, full_roles))
 
 -- Flask

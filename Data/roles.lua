@@ -33,7 +33,7 @@ function addon.roles:get(name, raidRole)
             end
         end
     end
-    addon:printError(name .. "|r " .. L["ERROR_FALSEROLE_LABEL"] .. " (" .. nothing.name .. ")")
+    addon:printError(L["ERROR_FALSEROLE_LABEL"] .. " (" .. nothing.name .. ")", addonName .. " " .. name)
     return nothing
 end
 
