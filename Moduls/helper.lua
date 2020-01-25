@@ -9,8 +9,9 @@ function addon:printError(text) print("|cFFFF0000" .. text) end
 
 ------------------------
 
---- Table enhancements
+-- Table enhancements
 -------------------------
+
 function table.sortyByKey(t, f)
     local a = {}
     for n in pairs(t) do table.insert(a, n) end
@@ -27,9 +28,18 @@ function table.sortyByKey(t, f)
     return iter
 end
 
-function table.includes(tbl, val)
+function table.includes(val, tbl)
     if (tbl ~= nil) then for _, value in pairs(tbl) do if value == val then return true end end end
     return false
 end
 
 function table.getKeyFromValue(tbl, val) for key, value in pairs(tbl) do if (value == val) then return key end end end
+
+------------------------
+
+-- String enhancements
+-------------------------
+
+function string.isEmpty(s)
+    return s == nil or s == ''
+end

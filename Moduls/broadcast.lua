@@ -15,17 +15,14 @@ function broadcast:send()
     local active = #addon.spells
     local buffed = 0
 
-    for _, v in ipairs(addon.spells) do
-        local spell = { active = addon.db.profile[v].active, count = 0 }
-
+    for _, category in ipairs(addon.spells) do
+        local spell = { active = addon.db.profile[category].active, count = 0 }
         if (spell.active) then
-            spell.missing = addon.check:groupMissing(v)
+            spell.missing = addon.group:check(category)
             for _ in pairs(spell.missing) do spell.count = spell.count + 1 end
-
             if (spell.count > 0) then
-
                 toChannel(getSpacer(spacerAmount), channel)
-                toChannel(L["MISSING_PRINT_LABEL"] .. " " .. v .. ":", channel)
+                toChannel(L["MISSING_PRINT_LABEL"] .. " " .. category .. ":", channel)
                 toChannel(getSpacer(spacerAmount), channel)
                 for spell, players in table.sortyByKey(spell.missing) do
                     local str = spell .. " (" .. #players .. ")"
@@ -54,7 +51,7 @@ function toChannel(text, channel)
     if (string.match(channel, "PRINT")) then
         print(text)
     else
-        if (text ~= nil) then SendChatMessage(text, channel) end
+        if not string.isEmpty(text) then SendChatMessage(text, channel) end
     end
 end
 

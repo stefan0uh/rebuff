@@ -161,15 +161,14 @@ addon.options = optionsEntry()
 
 ----------------------------
 
-function options:getSpell(info, value) return table.includes(addon.db.profile[info[1]][info[2]], value) end
+function options:getSpell(info, value) return table.includes(value, addon.db.profile[info[1]][info[2]]) end
 
 function options:setSpell(info, value)
-    local t = addon.db.profile[info[1]][info[2]]
-    if not table.includes(t, value) then
-        table.insert(t, value)
+    local db = addon.db.profile[info[1]][info[2]]
+    if not table.includes(value, db) then
+        table.insert(db, value)
     else
-        table.remove(t, table.getKeyFromValue(t, value))
+        table.remove(db, table.getKeyFromValue(db, value))
     end
-    addon.db.profile[info[1]][info[2]] = t
 end
 

@@ -24,7 +24,7 @@ Data\worldbuffs.lua
 
 # Moduls
 Moduls\broadcast.lua
-Moduls\check.lua
+Moduls\group.lua
 Moduls\options.lua
 
 # Core Element
