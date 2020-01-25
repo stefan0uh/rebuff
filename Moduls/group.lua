@@ -24,10 +24,10 @@ function group:check(category)
         end
         if online and not string.isEmpty(name) then
             local role = addon.roles:get(name, raidRole)
-            local selectedBuffs = addon.db.profile[category][role.name]
-            local spells = addon.spell:fromArray(addon[category], selectedBuffs)
+            local roleSpells = addon.db.profile[category][role.name]
+            local spells = addon.spell:getFromArray(roleSpells, addon[category])
 
-            for _, buff in pairs(getMissingBuffs(name, role, spells)) do
+            for _, buff in pairs(getMissingSpells(name, role, spells)) do
                 if missing[buff.name] == nil then missing[buff.name] = {} end
                 table.insert(missing[buff.name], name)
             end
@@ -36,19 +36,19 @@ function group:check(category)
     return missing
 end
 
-function getMissingBuffs(player, role, buffs)
+function getMissingSpells(player, role, spells)
     local missing = {}
-    for _, buff in pairs(buffs) do
-        if not table.includes(role, buff.roles) then
-            local buffSlot = 1
-            local _, _, _, _, _, _, _, _, _, spellID = UnitBuff(player, buffSlot)
-            spellID = tonumber(spellID)
-            table.insert(missing, buff)
+    for _, spell in pairs(spells) do
+        if not table.includes(role, spell.roles) then
+            table.insert(missing, spell)
 
-            while spellID do
-                if (table.includes(spellID, buff.ids)) then table.remove(missing) end
-                buffSlot = buffSlot + 1
-                _, _, _, _, _, _, _, _, _, spellID = UnitBuff(player, buffSlot)
+            local slot = 1
+            local _, _, _, _, _, _, _, _, _, id = UnitBuff(player, slot)
+
+            while id do
+                if (table.includes(tonumber(id), spell.ids)) then table.remove(missing) end
+                slot = slot + 1
+                _, _, _, _, _, _, _, _, _, id = UnitBuff(player, slot)
             end
         end
     end

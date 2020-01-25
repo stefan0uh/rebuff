@@ -40,7 +40,7 @@ end
 ----------------------------
 function Spell:byId(spells, id) for _, v in pairs(spells) do if table.includes(id, v.ids) then return v end end end
 
-function Spell:fromArray(spells, arr)
+function Spell:getFromArray(arr, spells)
     local tmp = {}
     for _, id in pairs(arr) do table.insert(tmp, Spell:byId(spells, id)) end
     return tmp
