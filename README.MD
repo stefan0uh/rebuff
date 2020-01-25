@@ -51,7 +51,7 @@ To trigger the addon use `/rebuff` or `/rb`.
 #### ERRORs?
 `/console scriptErrors 1`
 
-Please make a new Issue or Pull-Request!
+If you found an error or wanna improve, please make a new issue or Pull-Request at (Github)[https://github.com/stefan0uh/rebuff]!
 
 --- 
 
