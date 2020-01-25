@@ -11,7 +11,7 @@ local broadcast = addon.broadcast
 
 function broadcast:send()
     local channel = addon.channels[addon.db.profile.options.channel]
-    local spacerAmount = #addon.db.profile.options.fullBuffedMessage + (#addon.db.profile.options.fullBuffedMessage / 3 )
+    local spaceAmount = #addon.db.profile.options.fullBuffedMessage * 1.3
     local active = #addon.spells
     local buffed = 0
 
@@ -21,12 +21,11 @@ function broadcast:send()
             spell.missing = addon.group:check(category)
             for _ in pairs(spell.missing) do spell.count = spell.count + 1 end
             if (spell.count > 0) then
-                toChannel(getSpacer(spacerAmount), channel)
-                toChannel(L["MISSING_PRINT_LABEL"] .. " " .. category .. ":", channel)
-                toChannel(getSpacer(spacerAmount), channel)
+                toChannel(getSpacer(spaceAmount), channel)
+                toChannel(L["MISSING_PRINT_LABEL"] .. " " .. L[category] .. ":", channel)
+                toChannel(getSpacer(spaceAmount), channel)
                 for spell, players in table.sortyByKey(spell.missing) do
-                    local str = spell .. " (" .. #players .. ")"
-                    toChannel(str .. ": " .. formatPlayers(players), channel)
+                    toChannel(spell .. " (" .. #players .. "): " .. formatPlayers(players), channel)
                 end
             else
                 buffed = buffed + 1
@@ -37,9 +36,9 @@ function broadcast:send()
     end
 
     if active == buffed and active > 0 then
-        toChannel(getSpacer(spacerAmount), channel)
+        toChannel(getSpacer(spaceAmount), channel)
         toChannel(addon.db.profile.options.fullBuffedMessage, channel)
-        toChannel(getSpacer(spacerAmount), channel)
+        toChannel(getSpacer(spaceAmount), channel)
     elseif (active == 0) then
         addon:printError(addonName .. " |r" .. L["ERROR_NOTHINGSELECTED_LABEL"])
     end

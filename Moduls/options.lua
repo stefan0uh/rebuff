@@ -23,7 +23,7 @@ function defaultEntry()
     }
 
     for _, v in ipairs(addon.spells) do
-        default.profile[v] = { active = false, [addon.roles.tank.name] = {}, [addon.roles.physical.name] = {}, [addon.roles.caster.name] = {} }
+        default.profile[v] = { active = false, [addon.role.tank.name] = {}, [addon.role.physical.name] = {}, [addon.role.caster.name] = {} }
     end
     return default
 end
@@ -44,35 +44,35 @@ function spellEntry(arr)
                 set = function(_, val) addon.db.profile[arr].active = val end
             },
             subHead = { order = 20, name = L["SPELL_OVERVIEW_HEADLINE"], type = "header" },
-            [addon.roles.tank.name] = {
+            [addon.role.tank.name] = {
                 order = 21,
                 name = L["ROLE_TANK"],
-                desc = function() return addon.roles:getFormated(addon.roles.tank.name) end,
+                desc = function() return addon.roles:getFormated(addon.role.tank.name) end,
                 type = "multiselect",
                 disabled = function() return not addon.db.profile[arr].active end,
                 set = "setSpell",
                 get = "getSpell",
-                values = function() return addon.spell:forSelection(addon[arr], addon.roles.tank.name) end
+                values = function() return addon.spell:forSelection(addon[arr], addon.role.tank.name) end
             },
-            [addon.roles.physical.name] = {
+            [addon.role.physical.name] = {
                 order = 22,
                 name = L["ROLE_PHYSICAL"],
-                desc = function() return addon.roles:getFormated(addon.roles.physical.name) end,
+                desc = function() return addon.roles:getFormated(addon.role.physical.name) end,
                 type = "multiselect",
                 disabled = function() return not addon.db.profile[arr].active end,
                 set = "setSpell",
                 get = "getSpell",
-                values = function() return addon.spell:forSelection(addon[arr], addon.roles.physical.name) end
+                values = function() return addon.spell:forSelection(addon[arr], addon.role.physical.name) end
             },
-            [addon.roles.caster.name] = {
+            [addon.role.caster.name] = {
                 order = 23,
                 name = L["ROLE_CASTER"],
-                desc = function() return addon.roles:getFormated(addon.roles.caster.name) end,
+                desc = function() return addon.roles:getFormated(addon.role.caster.name) end,
                 type = "multiselect",
                 disabled = function() return not addon.db.profile[arr].active end,
                 set = "setSpell",
                 get = "getSpell",
-                values = function() return addon.spell:forSelection(addon[arr], addon.roles.caster.name) end
+                values = function() return addon.spell:forSelection(addon[arr], addon.role.caster.name) end
             }
         }
     }
