@@ -13,10 +13,10 @@ if UnitFactionGroup("player") == "Horde" then
     table.insert(buffs, addon:addBuff({ 16609 }, { "tank", "physical", "caster" })) --  Warchief's Blessing
 end
 
--- Onyixa / Nefarian
+-- Onyixa / Nefarian - Head
 table.insert(buffs, addon:addBuff({ 22888 }, { "tank", "physical", "caster" })) --  Rallying Cry of the Dragonslayer
 
--- Zul'Gurub
+-- Zul'Gurub - The Heart of Hakkar
 table.insert(buffs, addon:addBuff({ 24425 }, { "tank", "physical", "caster" })) --  Spirit of Zandalar
 
 -- Felwood Buff

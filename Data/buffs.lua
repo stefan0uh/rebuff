@@ -23,9 +23,9 @@ table.insert(buffs, addon:addBuff({ 27681, 27841 }, { "caster" })) --  Prayer of
 
 -- Paladin
 if UnitFactionGroup("player") == "Alliance" then
-    table.insert(buffs, addon:addBuff({ 25898, 20217 }, { "tank", "physical", "caster" })) --  Blessing of Kings, Greater Blessing of Kings
-    table.insert(buffs, addon:addBuff({ 25782, 19838, 25916, 25291 }, { "tank", "physical", "caster" })) --  Blessing of Might, Greater Blessing of Might
-    table.insert(buffs, addon:addBuff({ 25895, 1038 }, { "physical", "caster" })) --  Blessing of Salvation, Greater Blessing of Salvation
-    table.insert(buffs, addon:addBuff({ 25918, 25290, 25894, 19854 }, { "tank", "physical", "caster" })) --  Blessing of Wisdom, Greater Blessing of Wisdom
-    table.insert(buffs, addon:addBuff({ 25899, 20914 }, { "tank", "physical", "caster" })) --  Blessing of Sanctuary, Greater Blessing of Sanctuary
+    table.insert(buffs, addon:addBuff({ 25898, 20217 }, { "tank", "physical", "caster" })) --  Greater Blessing of Kings, Blessing of Kings
+    table.insert(buffs, addon:addBuff({ 25782, 19838, 25916, 25291 }, { "tank", "physical", "caster" })) --  Greater Blessing of Might, Blessing of Might
+    table.insert(buffs, addon:addBuff({ 25895, 1038 }, { "physical", "caster" })) --  Greater Blessing of Salvation, Blessing of Salvation
+    table.insert(buffs, addon:addBuff({ 25918, 25290, 25894, 19854 }, { "tank", "physical", "caster" })) --  Greater Blessing of Wisdom, Blessing of Wisdom
+    table.insert(buffs, addon:addBuff({ 25899, 20914 }, { "tank", "physical", "caster" })) --  Greater Blessing of Sanctuary, Blessing of Sanctuary
 end
