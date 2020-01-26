@@ -12,7 +12,7 @@ https://www.curseforge.com/wow/addons/rebuff
 
 ---
 
-#### Separate selection for Tanking, Physical and Caster
+### Separate selection for Tanking, Physical and Caster
 * **Tanking**: Druid, Warrior (set as MAINTANK in raid)
 * **Physical**: Druid, Hunter, Rogue, Warrior and Shaman (No caster buffs, like Intellect or Spirit)
 * **Caster**: Druid, Mage, Priest, Shaman/Paladin and Warlock
@@ -21,7 +21,7 @@ https://www.curseforge.com/wow/addons/rebuff
 > Like Healer-classes are not casters, but currently its not possible to seperate, same as Hunters.
   
 ---
-#### Buffs
+### Buffs
 Its doesnt matter if a Group or Single buff is applied.
 
 * Arcane Brilliance, Arcane Intellect
@@ -39,28 +39,28 @@ Its doesnt matter if a Group or Single buff is applied.
 * Greater Blessing of Wisdom, Blessing of Wisdom
 * Greater Blessing of Sanctuary, Blessing of Sanctuary
 
-#### Consumable check for Flasks, Elixirs, Magic Protection Potion and Food
+### Consumable check for Flasks, Elixirs, Magic Protection Potion and Food
 At the current state, it checks only one buff.
 > (Example: Elixirs is selected, so the person doesn't need all elixirs just one.)
 
 
-##### Blasted Lands
+#### Blasted Lands
 * Cerebral Cortex Compound
 * Gizzard Gum
 * Lung Juice Cocktail
 
-##### Zul'Gurub Zanzas (1 of 3, UNIQUE)
+#### Zul'Gurub Zanzas (1 of 3, UNIQUE)
 * Spirit of Zanza
 * Sheen of Zanza
 * Swiftness of Zanza
 
-##### Rumsey/Gordoc
+#### Rumsey/Gordoc
 * Rumsey Rum Black Label
 * Rumsey Rum Dark
 * Gordok Green Grog
 * Kreeg's Stout Beatdown
 
-##### JuJu
+#### JuJu
 ###### Restistance
 * Juju Chill
 * Juju Ember
@@ -68,14 +68,14 @@ At the current state, it checks only one buff.
 * Juju Might
 * Juju Power
 
-##### Magic Protection Potion
+#### Magic Protection Potion
 * Greater Fire Protection Potion
 * Greater Arcane Protection Potion
 * Greater Frost Protection Potion
 * Greater Nature Protection Potion
 * Greater Shadow Protection Potion
 
-##### Flask (1 of 4, UNIQUE)
+#### Flask (1 of 4, UNIQUE)
 * Flask of the Titans
 * Flask of Distilled Wisdom
 * Flask of Supreme Power
@@ -106,7 +106,7 @@ At the current state, it checks only one buff.
 
 ---
 
-#### Worldbuff check
+### Worldbuff check
 * Warchief's Blessing (Horde only)
 * Rallying Cry of the Dragonslayer (ONY/NEF head)
 * Spirit of Zandalar (HAKAR Hearth)
