@@ -15,7 +15,7 @@ function broadcast:send()
     local active = #addon.spells
     local buffed = 0
 
-    if string.match(channel, "PRINT") or GetNumGroupMembers() > 1 then
+    if addon:isInGroup() or string.match(channel, "PRINT") then
         for _, category in ipairs(addon.spells) do
             local spell = { active = addon.db.profile[category].active, count = 0 }
             if (spell.active) then
@@ -45,6 +45,7 @@ function broadcast:send()
         end
     else
         addon:printError(L["ERROR_NOPARTY"], addonName)
+        addon:printHelp(L["HINT_TEST_SETTINGS"], addonName)
     end
 end
 

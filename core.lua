@@ -9,8 +9,6 @@ local L = LibStub("AceLocale-3.0"):GetLocale(addonName, true)
 -- Core modul
 -- -- just events :)
 ----------------------------
-
-
 function addon:OnInitialize()
     LibStub("AceConfig-3.0"):RegisterOptionsTable(addonName, self.options, { "rb", "rebuff", "Rebuff" })
     LibStub("AceConfigDialog-3.0"):AddToBlizOptions(addonName, addonTitle)
@@ -21,7 +19,6 @@ function addon:OnInitialize()
 end
 
 ----------------------
-
 function addon:READY_CHECK()
     StaticPopupDialogs["REBUFF_PRINT"] = {
         text = L["READYCHECK_DIALOG_MESSAGE"],

@@ -66,8 +66,9 @@ if L then
 
     L["MISSING_PRINT_LABEL"] = "Missing"
 
+    L["HINT_TEST_SETTINGS"] = "To test the addon use PRINT in the channel settings."
 
-    L["ERROR_NOPARTY"] = "You are not in a party/raid."
+    L["ERROR_NOPARTY"] = "You are not in a party or raid."
     L["ERROR_NOTHINGSELECTED_LABEL"] = "Select something in the options to broadcast a report."
     L["ERROR_FALSEROLE_LABEL"] = "player's role can be false."
 end

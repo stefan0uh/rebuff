@@ -4,20 +4,30 @@ local addonName, addon = ...
 
 -- Addon helper functions
 ----------------------------
-
 function addon:printError(text, prefix)
-    if(prefix) then
+    if (prefix) then
         print("|cFFFF0000" .. prefix .. " | |r" .. text)
     else
         print("|cFFFF0000" .. text)
     end
 end
 
+function addon:printHelp(text, prefix)
+    if (prefix) then
+        print("|cFFFF0000" .. prefix .. " | |cAAAAAA00" .. text)
+    else
+        print("|cAAAAAA00" .. text)
+    end
+end
+
+function addon:isInGroup()
+    return GetNumGroupMembers() > 1
+end
+
 ------------------------
 
 -- Table enhancements
 -------------------------
-
 function table.sortyByKey(t, f)
     local a = {}
     for n in pairs(t) do table.insert(a, n) end
