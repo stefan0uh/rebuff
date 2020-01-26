@@ -140,8 +140,9 @@ function optionsEntry()
                         get = function() return addon.db.profile.options.fullBuffedMessage end,
                         set = function(_, val) addon.db.profile.options.fullBuffedMessage = val end
                     },
-                    head_5 = { order = 50, name = L["RESET"], type = "header", width = "full" },
-                    reset = { order = 51, name = L["RESET_OPTIONS"], type = "execute", confirm = true, width = "full", func = function() addon.db:ResetProfile() end }
+                    head_5 = { order = 50, name = L["RESET_HEADLINE"], type = "header", width = "full" },
+                    reset = { order = 51, name = L["RESET_ACTION"], type = "execute", confirm = true, width = "full", func = function() addon.db:ResetProfile() end },
+                    desc_5 = { order = 52, name = L["RESET_DESCRIPTION"], type = "description", width = "full" }
                 }
             }
         }

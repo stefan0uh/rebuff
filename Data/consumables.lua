@@ -29,7 +29,7 @@ local blasted = {}
 table.insert(blasted, addon:addConsumable(8423, { 10692 }, { "caster" })) -- Cerebral Cortex Compound
 table.insert(blasted, addon:addConsumable(8424, { 10693 }, { "caster" })) -- Gizzard Gum
 table.insert(blasted, addon:addConsumable(8411, { 10668 }, full_roles)) -- Lung Juice Cocktail
-table.insert(buffs, addon:createGroup("Blasted Lands buffs", blasted, full_roles))
+table.insert(buffs, addon:createGroup("Blasted Land Consumables", blasted, full_roles))
 
 -- Zul'Gurub Zanzas
 local zanzas = {}
@@ -87,7 +87,7 @@ table.insert(defense, addon:addConsumable(9088, { 11371 }, d_roles)) -- Gift of 
 table.insert(defense, addon:addConsumable(9206, { 11405 }, d_roles)) -- Elixir of the Giants
 table.insert(defense, addon:addConsumable(3825, { 3593 }, d_roles)) -- Elixir of Fortitude
 table.insert(defense, addon:addConsumable(13445, { 11348 }, d_roles)) -- Elixir of Superior Defense
-table.insert(defense, addon:addConsumable(20004, { 24361 }, c_roles, "ITEM")) -- Major Troll's Blood Potion
+table.insert(defense, addon:addConsumable(20004, { 24361 }, c_roles)) -- Major Troll's Blood Potion
 table.insert(buffs, addon:createGroup("Defense Elixirs", defense, full_roles))
 
 -- PHYSCIAL
@@ -101,11 +101,11 @@ table.insert(buffs, addon:createGroup("Physical Elixirs", physical, p_roles))
 -- CASTER
 local caster = {}
 local c_roles = { "caster" }
-table.insert(caster, addon:addConsumable(21546, { 26276 }, c_roles, "ITEM")) -- Elixir of Greater Firepower
-table.insert(caster, addon:addConsumable(6373, { 7844 }, c_roles, "ITEM")) -- Elixir of Firepower
-table.insert(caster, addon:addConsumable(9264, { 11474 }, c_roles, "ITEM")) -- Elixir of Shadow Power
-table.insert(caster, addon:addConsumable(17708, { 21920 }, c_roles, "ITEM")) -- Elixir of Frost Power
-table.insert(caster, addon:addConsumable(13454, { 17539 }, c_roles, "ITEM")) -- Greater Arcane Elixir
-table.insert(caster, addon:addConsumable(9155, { 11390 }, c_roles, "ITEM")) -- Arcane Elixir
-table.insert(caster, addon:addConsumable(20007, { 24363 }, c_roles, "ITEM")) -- Mageblood Potion
+table.insert(caster, addon:addConsumable(21546, { 26276 }, c_roles)) -- Elixir of Greater Firepower
+table.insert(caster, addon:addConsumable(6373, { 7844 }, c_roles)) -- Elixir of Firepower
+table.insert(caster, addon:addConsumable(9264, { 11474 }, c_roles)) -- Elixir of Shadow Power
+table.insert(caster, addon:addConsumable(17708, { 21920 }, c_roles)) -- Elixir of Frost Power
+table.insert(caster, addon:addConsumable(13454, { 17539 }, c_roles)) -- Greater Arcane Elixir
+table.insert(caster, addon:addConsumable(9155, { 11390 }, c_roles)) -- Arcane Elixir
+table.insert(caster, addon:addConsumable(20007, { 24363 }, c_roles)) -- Mageblood Potion
 table.insert(buffs, addon:createGroup("Caster Elixirs", caster, c_roles))

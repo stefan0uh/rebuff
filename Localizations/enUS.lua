@@ -13,7 +13,7 @@ if L then
     L["GENERAL_TAB"] = "General"
     L["CHANNEL_HEADLINE"] = "Broadcasting channel"
     L["CHANNEL_SELECT_LABEL"] = "Select a broadcast channel"
-    L["CHANNEL_DESCRIPTION"] = "PRINT is only for you visible."
+    L["CHANNEL_DESCRIPTION"] = "PRINT is only in your main chat window visible."
 
     ----------------------------
 
@@ -43,8 +43,9 @@ if L then
 
     ----------------------------
 
-    L["RESET"] = "Reset"
-    L["RESET_OPTIONS"] = "Reset options"
+    L["RESET_HEADLINE"] = "Reset"
+    L["RESET_ACTION"] = "Reset options"
+    L["RESET_DESCRIPTION"] = "In super rare cases, the broadcasted buff count can be wrong. It is possible that this happened after updating buff ids, use reset to fix this issue."
 
     L["YES"] = "Yes"
     L["NO"] = "No"
