@@ -18,6 +18,7 @@ if L then
     ----------------------------
 
     L["READYCHECK_HEADLINE"] = "Readycheck"
+
     L["READYCHECK_DIALOG_LABEL"] = "Readycheck dialog"
     L["READYCHECK_DIALOG_DESCRIPTION"] = "Directly on a ready check, a dialog appears to broadcast the report."
     L["READYCHECK_DIALOG_MESSAGE"] = "Do you want to broadcast a rebuff report?"
@@ -66,9 +67,13 @@ if L then
 
     L["MISSING_PRINT_LABEL"] = "Missing"
 
-    L["HINT_TEST_SETTINGS"] = "To test the addon use PRINT in the channel settings."
+    ----------------------------
 
     L["ERROR_NOPARTY"] = "You are not in a party or raid."
     L["ERROR_NOTHINGSELECTED_LABEL"] = "Select something in the options to broadcast a report."
     L["ERROR_FALSEROLE_LABEL"] = "player's role can be false."
+
+    ----------------------------
+
+    L["HINT_TEST_SETTINGS"] = "To test the addon, use PRINT in the channel settings."
 end
